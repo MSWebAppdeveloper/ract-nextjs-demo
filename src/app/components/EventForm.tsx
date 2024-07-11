@@ -9,7 +9,7 @@ const EventForm = (props: Props) => {
     width: '1166px', // Fixed width
     height: '1142px', // Hug height
     backgroundColor: '#f0f0f0', // Black background color
-    marginLeft: '346px', // Space from the left side
+   // Space from the left side
     // padding: '20px', // Add some padding if needed
     opacity: '1', // Set opacity to 1 to make it visible
   };
