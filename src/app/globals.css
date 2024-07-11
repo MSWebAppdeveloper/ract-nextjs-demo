@@ -153,3 +153,16 @@
   align-self: stretch;
   flex-grow: 0;
 }
+
+
+/* style to form */
+.date-time-row {
+  display: flex;
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .date-time-row {
+    flex-direction: column;
+  }
+}
