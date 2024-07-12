@@ -289,8 +289,22 @@ const EventForm = () => {
           </Flex>
         </Box>
       )}
+     
       <Box style={formStyle}>
         <form onSubmit={handleSubmit}>
+        <div className="form-sec mb-5">
+          <div className="mb-0">
+            <Flex direction="column">
+              <Text size="6" className="mb-2 heading">
+                Create an Event
+              </Text>
+              <Text size="2" className="mt-2 header-p">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore
+              </Text>
+            </Flex>
+          </div>
+        </div>
           <label style={labelStyle}>Event Name</label>
           <input
             type="text"

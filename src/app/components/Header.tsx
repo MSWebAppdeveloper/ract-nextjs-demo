@@ -11,7 +11,6 @@ const Header = () => {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#c3c3c3',
   };
 
   const searchContainerStyle = {
@@ -47,7 +46,7 @@ const Header = () => {
       </Box>
       <Flex gap="2">
 
-        <Avatar
+        <Avatar color='gray'
           fallback={
             <Box width="24px" height="24px">
 

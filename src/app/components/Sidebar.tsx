@@ -1,3 +1,5 @@
+"use client"
+import { MoonIcon, TrashIcon } from "@radix-ui/react-icons";
 import {
     Avatar,
     Box,
@@ -7,14 +9,31 @@ import {
     Text,
     IconButton,
     Card,
+    Button,
 } from "@radix-ui/themes";
-import React from "react";
-import { } from "module";
+import { useTheme } from "next-themes";
+import React, { useEffect, useState } from "react";
 type Props = {};
 
 const Sidebar = (props: Props) => {
+    const { theme, setTheme } = useTheme();
+
+    const [isDarkMode, setIsDarkMode] = useState(theme === "dark");
+
+    const handleThemeChange = () => {
+        const newTheme = isDarkMode ? "light" : "dark";
+        setTheme(newTheme);
+        setIsDarkMode(!isDarkMode);
+    };
+
+    useEffect(() => {
+        setIsDarkMode(theme === "dark");
+    }, [theme]);
+
+
     return (
         <>
+
             <Box id="sidebar">
                 <div id="top">
                     <Box className="logo">
@@ -25,6 +44,8 @@ const Sidebar = (props: Props) => {
                     <Box className="navigationMenu">
                         <Link href="#" underline="none">
                             <Flex className="navigation-link">
+
+
                                 <svg
                                     width="16"
                                     height="16"
@@ -154,10 +175,12 @@ const Sidebar = (props: Props) => {
 
                     <Box className="events">
                         <Flex direction="column" gap="3" maxWidth="350px">
+
                             <Box>
                                 <Text as="label" weight='bold' align='left'
                                     color="gray" className="eventLabel"> Today's Event</Text>
                             </Box>
+
                             <Card variant="surface">
                                 <Flex gap="3" align="center">
                                     <Avatar
@@ -221,8 +244,14 @@ const Sidebar = (props: Props) => {
                 <div id="bottom">
                     <Flex direction='column' className="tertiaryLinks">
                         <Text as="label" size="2">
+
                             <Flex gap="2">
-                                <Switch size="1" /> Dark Mode
+                                <label className="inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" checked={isDarkMode}
+                                        onClick={handleThemeChange} className="sr-only peer" />
+                                    <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600" />
+                                    <Text>Dark Mode</Text>
+                                </label>
                             </Flex>
                         </Text>
                         <Flex direction="column" gap="3">
