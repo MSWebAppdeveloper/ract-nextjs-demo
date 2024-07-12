@@ -43,40 +43,46 @@ const EventForm = () => {
   };
 
   const pagestyle = {
-    width: '1166px', // Fixed width
-    height: '100%', // Hug height
-    backgroundColor: '#f0f0f0', // Background color
-    marginLeft: '346px', // Space from the left side
-    opacity: '1', // Set opacity to 1 to make it visible
+    width: "calc(100% - 346px)", // Fixed width
+    height: "100%", // Hug height
+    backgroundColor: "#fff", // Background color
+    marginLeft: "auto", // Space from the left side
+    opacity: "1", // Set opacity to 1 to make it visible
   };
 
   const formStyle = {
-    width: '570px', // Fixed width
-    height: '990px', // Hug height
-    gap: 'var(--Spacing9)', // Gap
-    opacity: '1', // Set opacity to 1 to make it visible
-    padding: '20px', // Add some padding
+    width: "570px", // Fixed width
+    height: "990px", // Hug height
+    gap: "var(--Spacing9)", // Gap
+    opacity: "1", // Set opacity to 1 to make it visible
+    padding: "0px 0px", // Add some padding
   };
 
   const labelStyle = {
-    display: 'block',
-    marginBottom: '8px',
+    display: "block",
+    marginBottom: "8px",
+    color: "#1D211C",
+    fontWeight: "500",
+    FontFamily: "inter",
   };
 
   const inputStyle = {
-    display: 'block',
-    width: '100%',
-    marginBottom: '16px',
-    padding: '8px',
+    display: "block",
+    width: "100%",
+    padding: "8px",
+    borderRadius: "3px",
+    backgroundColor: "#00200010",
   };
 
   const dropzoneStyle = {
-    border: '2px dashed #0070f3',
-    borderRadius: '4px',
-    padding: '20px',
-    textAlign: 'center',
-    cursor: 'pointer',
-    marginBottom: '16px',
+    borderRadius: "4px",
+    padding: "39px",
+    textAlign: "center",
+    cursor: "pointer",
+    marginBottom: "16px",
+    backgroundColor: "#00200010",
+    display: "flex",
+    justifyContent: "center",
   };
 
   const validationBoxStyle = {
@@ -339,11 +345,14 @@ const EventForm = () => {
             onChange={handleInputChange}
           />
 
-          <label style={labelStyle}>Banner Image</label>
-          <Box {...getRootProps({ style: dropzoneStyle })}>
-            <input {...getInputProps()} />
-            <p>Drag 'n' drop a file here, or click to select a file</p>
-          </Box>
+          <div className="form-sec">
+            <label style={labelStyle}>Video</label>
+            <input
+              type="text"
+              style={inputStyle}
+              placeholder="Add video link..."
+            />
+          </div>
 
           <Flex gap="var(--Spacing9)">
             <Button style={{ flex: 1 }} color="blue" type="submit">

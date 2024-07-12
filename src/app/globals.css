@@ -2,21 +2,23 @@
   @tailwind components;
   @tailwind utilities;
 
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  #main {
-    width: 1512px;
-    height: 1238px;
-    top: 621px;
-    left: -1026px;
-    padding: 0px 0px 96px 0px;
-    gap: 0px;
-    opacity: 0px;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.wrapper {
+  width: 100%;
+}
+#main {
+  width: 1512px;
+  height: 1238px;
+  top: 621px;
+  left: -1026px;
+  padding: 0px 0px 96px 0px;
+  gap: 0px;
+  opacity: 0px;
+}
 
   #sidebar {
   /* Navigation Bar */
@@ -31,33 +33,198 @@
 
   position: absolute;
   width: 250px;
-  height: 982px;
-  left: 0px;
-  top: 0px;
-
-
-
-  }
-
-  #top{
+  height: 100vh;
+  padding: var(--Spacing4) var(--Spacing5) var(--Spacing6) var(--Spacing5);
+  gap: 0px;
+  position: fixed;
+  justify-content: space-between;
+  opacity: 0px;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 32px;
+    flex-direction: column;
+}
 
-  margin: 0 auto;
-  width: 202px;
-  height: 568px;
+#top{
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 32px;
+margin: 16px auto 0;
+width: 202px;
+height: 568px;
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+}
+.navigation-link .menu-items {
+  color: #040E00;
+  opacity: 0.5;
+}
+.Active .menu-items {
+  font-weight: 500;
+  opacity: 1!important;
+}
+.Active:hover {
+  background-color: rgb(0, 151, 0, 0.2);
+  opacity: 1!important;
+}
+.Active:hover .menu-items {
+  color: #006514!important;
+}
+.card-items {
+  margin-top: 8px;
+}
+.rt-Card:where(.rt-variant-surface) {
+  --card-border-width: 0px!important;
+  --card-background-color: var(--color-panel);
+}
+#bottom{
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 32px;
+margin: 0 auto 32px;
+width: 202px;
+height: 68px;
+padding: 4px 0px;
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+}
+.input-box {
+  border: 1px solid #cecece;
+}
+.form-sec {
+  margin-top: 50px;
+}
+.banner-sec {
+  margin-top: 16px;
+}
+.logo{
+display: flex!important;
+justify-content: center;
+align-items: center;
+padding: 10px;
+gap: 10px;
+width: 202px;
+height: 64px;
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+}
 
+.navigationMenu{
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 8px;
+width: 202px;
+height: 200px;
+border-radius: 6px;
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+}
 
+.events{
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 8px;
+width: 202px;
+height: 240px;
+border-radius: 6px;
+flex: none;
+order: 2;
+align-self: stretch;
+flex-grow: 0;
+}
 
-  flex: none;
-  order: 0;
-  align-self: stretch;
-  flex-grow: 0;
+.eventLabel{
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 4px 16px;
+gap: 10px;
+width: 202px;
+height: 24px;
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+}
 
-
+.tertiaryLinks{
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+padding: 0px;
+gap: 8px;
+width: 202px;
+height: 68px;
+border-radius: 6px;
+flex: none;
+order: 0;
+align-self: stretch;
+flex-grow: 0;
+}
+.form-sec .textarea {
+  padding: 16px 12px!important;
+}
+.date-time-row {
+  display: flex;
+  gap: 16px;
+}
+.heading, .header-p, p {
+  font-family: inter;
+}
+.heading {
+  font-weight: 500;
+}
+.form-sec .header-p {
+  color: #020A00A0!important;
+  font-weight: 300;
+}
+.banner-sec .rt-box {
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 0px;
+gap: 4px;
+width: 570px;
+height: 120px;
+background: rgba(255, 255, 255, 1e-05);
+flex: none;
+order: 1;
+align-self: stretch;
+flex-grow: 0;
+}
+.banner-sec p{
+  max-width: 379px;
+  font-size: 14px;
+}
+.form-button {
+  margin-top: 64px;
+}
+.banner-sec p a {
+  text-decoration:underline;
+}
+.form-button .create-btn {
+  background: #00970016;
+  color: #006514D5;
+  padding: 20px 10px!important;
+}
+@media (max-width: 768px) {
+  .date-time-row {
+    flex-direction: column;
   }
 
   #bottom{
@@ -263,4 +430,5 @@
   align-self: stretch;
   flex-grow: 0;
 
-  }
+}
+
