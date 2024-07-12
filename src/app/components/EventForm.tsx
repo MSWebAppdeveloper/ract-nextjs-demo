@@ -1,10 +1,9 @@
 "use client"
 import React, { useState } from 'react';
 import Header from './Header';
-import { Flex, Box, Button, VisuallyHidden } from '@radix-ui/themes';
+import { Flex, Box, Button } from '@radix-ui/themes';
 import { useDropzone } from 'react-dropzone';
 import { InfoCircledIcon, Cross2Icon } from '@radix-ui/react-icons'; // Import Cross2Icon for delete action
-import { Dialog, DialogContent } from '@radix-ui/react-dialog'; // Import Dialog and DialogContent
 
 // Define your timezoneOptions array
 const timezoneOptions = [
@@ -31,9 +30,10 @@ const EventForm = () => {
   const [validationMessage, setValidationMessage] = useState('');
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [savedData, setSavedData] = useState(null);
-  const [showConfirmation, setShowConfirmation] = useState(false); // State for showing delete confirmation dialog
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [timeoutId, setTimeoutId] = useState();
 
-  const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
+  const handleInputChange = (e:any) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -70,14 +70,11 @@ const EventForm = () => {
     padding: '8px',
   };
 
-  const headerStyle = {
-    marginBottom: '20px',
-  };
-
   const dropzoneStyle = {
     border: '2px dashed #0070f3',
     borderRadius: '4px',
     padding: '20px',
+    textAlign: 'center',
     cursor: 'pointer',
     marginBottom: '16px',
   };
@@ -94,6 +91,7 @@ const EventForm = () => {
     backgroundColor: 'rgb(207 253 210)',
     color: '#008000',
     padding: '10px',
+    position: 'absolute',
     top: '20px',
     right: '20px',
     width: 'auto',
@@ -149,7 +147,7 @@ const EventForm = () => {
     return true;
   };
 
-  const isValidUrl = (url: string) => {
+  const isValidUrl = (url:any) => {
     // Basic check for HTTPS URL
     return /^https:\/\//.test(url);
   };
@@ -169,14 +167,14 @@ const EventForm = () => {
     return options;
   };
 
-  const formatTime = (time: any) => {
+  const formatTime = (time:any) => {
     const [hour, minute] = time.split(':');
     const formattedHour = hour % 12 || 12; // Convert to 12-hour format
     const period = hour >= 12 ? 'PM' : 'AM'; // Determine AM/PM
     return `${formattedHour}:${minute} ${period}`; // Include space before AM/PM
   };
 
-  const handleSubmit = async (event: { preventDefault: () => void; }) => {
+  const handleSubmit = async (event:any) => {
     event.preventDefault();
     const isValid = validateForm();
 
@@ -194,6 +192,7 @@ const EventForm = () => {
           const data = await response.json();
           setSavedData(data.eventData);
           setFormSubmitted(true);
+          setShowSuccessMessage(true); // Show success message
           setFormData({
             eventName: '',
             eventDate: '',
@@ -201,8 +200,14 @@ const EventForm = () => {
             endTime: '',
             timeZone: '',
             description: '',
-            videoUrl: ''
+            videoUrl:''
           });
+
+          // Set timeout to hide success message after 7 seconds
+          const id:any = setTimeout(() => {
+            setShowSuccessMessage(false);
+          }, 7000);
+          setTimeoutId(id);
         } else {
           console.error('Failed to save event data');
           setValidationMessage('Failed to save event data');
@@ -230,14 +235,10 @@ const EventForm = () => {
     }
   };
 
-  const handleDelete = () => {
-    setShowConfirmation(true); // Show confirmation dialog on delete
-  };
-
-  const handleDeleteConfirm = () => {
-    // Handle delete action here
-    console.log('Deleting event...');
-    setShowConfirmation(false); // Close confirmation dialog after delete
+  const handleCloseSuccessMessage = () => {
+    // Clear timeout and hide success message
+    clearTimeout(timeoutId);
+    setShowSuccessMessage(false);
   };
 
   return (
@@ -251,13 +252,13 @@ const EventForm = () => {
           </Flex>
         </Box>
       )}
-      {formSubmitted && savedData && (
+      {showSuccessMessage && (
         <Box style={successBoxStyle}>
           <Flex>
             <InfoCircledIcon style={iconStyle} />
             <p>Event data saved successfully.</p>
             <Button onClick={handleEdit}>Edit</Button> {/* Edit button */}
-            <Cross2Icon style={iconStyle} onClick={handleDelete} /> {/* Cross icon for deleting */}
+            <Cross2Icon style={iconStyle} onClick={handleCloseSuccessMessage} /> {/* Cross icon for deleting */}
           </Flex>
         </Box>
       )}
@@ -345,32 +346,15 @@ const EventForm = () => {
           </Box>
 
           <Flex gap="var(--Spacing9)">
-            <Button style={{ flex: 1 }} color='blue' type="submit">
+            <Button style={{ flex: 1 }} color="blue" type="submit">
               Submit
             </Button>
-            <Button style={{ flex: 1 }} color='gray'>
+            <Button style={{ flex: 1 }} color="gray">
               Cancel
             </Button>
           </Flex>
         </form>
       </Box>
-
-      {/* Delete Confirmation Dialog */}
-      <Dialog open={showConfirmation} onOpenChange={(isOpen) => setShowConfirmation(isOpen)}>
-        <DialogContent>
-          <VisuallyHidden>Delete Event</VisuallyHidden>
-          <h3>Delete Event</h3>
-          <p>You are about to permanently delete this event. This action can't be undone.</p>
-          <Flex gap="10px">
-            <Button color="blue" onClick={handleDeleteConfirm}>
-              Delete
-            </Button>
-            <Button color="gray" onClick={() => setShowConfirmation(false)}>
-              Cancel
-            </Button>
-          </Flex>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };
