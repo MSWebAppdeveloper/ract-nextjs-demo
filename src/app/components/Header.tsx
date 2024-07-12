@@ -6,6 +6,7 @@ import {
   TextField,
   IconButton,
   Text,
+  Kbd,
 } from "@radix-ui/themes";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faBell, faUser } from "@fortawesome/free-solid-svg-icons";
@@ -23,7 +24,6 @@ const Header = () => {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#fff",
     position: "sticky",
     top: "0",
   };
@@ -32,7 +32,7 @@ const Header = () => {
     display: "flex",
     alignItems: "center",
     backgroundColor: "#fff",
-    borderRadius: "3px",
+    borderRadius: "6px",
     padding: "0 10px",
     width: "393px",
   };
@@ -65,12 +65,13 @@ const Header = () => {
           placeholder="Search ShowOps"
           style={searchInputStyle}
         />
+        <Kbd className="input-icon">⌘ S</Kbd>
       </Box>
 
       <Flex gap="2">
-        <Avatar
+        <Avatar className="bg-color"
           fallback={
-            <Box width="24px" height="24px">
+            <Box width="18px" height="18px">
               <svg
                 viewBox="0 0 15 15"
                 fill="none"

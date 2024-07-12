@@ -79,6 +79,10 @@ flex-grow: 0;
   --card-border-width: 0px!important;
   --card-background-color: var(--color-panel);
 }
+#bottom a {
+  color: #006514D5!important;
+  font-size: 12px!important;
+}
 #bottom{
 display: flex;
 flex-direction: column;
@@ -95,10 +99,10 @@ align-self: stretch;
 flex-grow: 0;
 }
 .input-box {
-  border: 1px solid #cecece;
+  border: 1px solid #00180020;
 }
 .form-sec {
-  margin-top: 50px;
+  margin-top: 64px;
 }
 .banner-sec {
   margin-top: 16px;
@@ -145,6 +149,7 @@ flex: none;
 order: 2;
 align-self: stretch;
 flex-grow: 0;
+margin-top: 32px;
 }
 
 .eventLabel{
@@ -159,6 +164,7 @@ flex: none;
 order: 0;
 align-self: stretch;
 flex-grow: 0;
+color: #040F0047!important;
 }
 
 .tertiaryLinks{
@@ -220,7 +226,15 @@ flex-grow: 0;
 .form-button .create-btn {
   background: #00970016;
   color: #006514D5;
-  padding: 20px 10px!important;
+  padding: 20px 19px!important;
+  border-radius: 6px;
+  margin-right: 8px;
+}
+.form-button .cancel-btn {
+  background: #fff;
+  color: #60655F;
+  padding: 20px 21px!important;
+  border-radius: 6px;
 }
 @media (max-width: 768px) {
   .date-time-row {
@@ -228,134 +242,95 @@ flex-grow: 0;
   }
 
   #bottom{
-    
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 0px;
   gap: 32px;
-
   margin: 0 auto;
   width: 202px;
   height: 68px;
-
-
-
   flex: none;
   order: 1;
   align-self: stretch;
   flex-grow: 0;
-
   }
+
   .logo{
-  
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   padding: 10px;
   gap: 10px;
-
   width: 202px;
   height: 64px;
-
-
-
   flex: none;
   order: 0;
   align-self: stretch;
   flex-grow: 0;
-
-  /* Logo */
-
   width: 150px;
   height: 27.78px;
-
   background: #1D211C;
-
-
-
   }
-  .navigationMenu{
 
+  .navigationMenu{
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 0px;
   gap: 8px;
-
   width: 202px;
   height: 200px;
-
   border-radius: 6px;
-
-
   flex: none;
   order: 1;
   align-self: stretch;
   flex-grow: 0;
-
   }
-  .events{
 
+  .events{
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 0px;
   gap: 8px;
-
   width: 202px;
   height: 240px;
-
   border-radius: 6px;
-
-
   flex: none;
   order: 2;
   align-self: stretch;
   flex-grow: 0;
-
-
+  
   }
-  .eventLabel{
 
+  .eventLabel{
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 4px 16px;
   gap: 10px;
-
   width: 202px;
   height: 24px;
-
-
-
   flex: none;
   order: 0;
   align-self: stretch;
   flex-grow: 0;
-
   }
 
   .tertiaryLinks{
-
   align-items: flex-start;
   padding: 0px;
   gap: 8px;
-
   width: 202px;
   height: 68px;
-
   border-radius: 6px;
-
-
     flex: none;
     order: 0;
     align-self: stretch;
     flex-grow: 0;
   }
-
-
 
   .date-time-row {
     display: flex;
@@ -368,67 +343,59 @@ flex-grow: 0;
     }
   }
 
-
-
-
   .navigation-link{
-
   align-items: center;
   padding: 8px 16px;
   gap: 16px;
-
   width: 202px;
   height: 40px;
-
   border-radius: 6px;
-
   flex: none;
   order: 2;
   align-self: stretch;
   flex-grow: 0;
-
   }
+
   .navigation-link :active{
   display: flex;
   flex-direction: row;
   align-items: center;
   padding: 8px 16px;
   gap: 16px;
-
   width: 202px;
   height: 40px;
-
   background: rgba(0, 151, 0, 0.0862745);
   border-radius: 6px;
-
   flex: none;
   order: 0;
   align-self: stretch;
   flex-grow: 0;
-
   }
-
-  .events{
-  
-  /* Today's Events */
-
-  /* Auto layout */
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 8px;
-
-  width: 202px;
-  height: 240px;
-
-  border-radius: 6px;
-
-  /* Inside auto layout */
-  flex: none;
-  order: 2;
-  align-self: stretch;
-  flex-grow: 0;
-
-}
-
+  .bg-color {
+    background: #00200010!important;
+  }
+  .bg-color .rt-AvatarFallback{
+    background: #00200010!important;
+    color: #60655F!important;
+  }
+  .input-icon {
+    background-color: transparent;
+    box-shadow: none;
+    font-size: 1em;
+    font-weight: 500;
+  }
+  select:focus-visible {
+    outline: 0!important;
+  }
+  .form-sec textarea {
+    padding:16px 12px!important;
+  }
+  .navigationMenu .navigation-link:hover {
+    background-color: #00200010!important;
+    color: #000;
+    cursor: pointer;
+  }
+ .events .card-items:hover {
+  background-color: #00200010!important;
+    color: #000;
+ }

@@ -1,3 +1,4 @@
+"use client";
 import {
   Avatar,
   Box,
@@ -8,11 +9,26 @@ import {
   IconButton,
   Card,
 } from "@radix-ui/themes";
-import React from "react";
-import { } from "module";
+import { useTheme } from "next-themes";
+import React, { useEffect, useState } from "react";
+
 type Props = {};
 
 const Sidebar = (props: Props) => {
+  const { theme, setTheme } = useTheme();
+
+  const [isDarkMode, setIsDarkMode] = useState(theme === "dark");
+
+  const handleThemeChange = () => {
+    const newTheme = isDarkMode ? "light" : "dark";
+    setTheme(newTheme);
+    setIsDarkMode(!isDarkMode);
+  };
+
+  useEffect(() => {
+    setIsDarkMode(theme === "dark");
+  }, [theme]);
+
   return (
     <>
       <div id="sidebar">
@@ -22,7 +38,7 @@ const Sidebar = (props: Props) => {
           </Box>
 
           <Box className="navigationMenu">
-            <Link href="#" underline="none">
+            <Link href="#" underline="none" color="gray" className="Nav-items">
               <Flex className="navigation-link Active">
                 <svg
                   width="16"
@@ -44,10 +60,12 @@ const Sidebar = (props: Props) => {
                     fill="#1D211C"
                   />
                 </svg>
-                <span className="menu-items">Dashboard</span>
+                <Text as="label" size="3" weight="medium">
+                  Dashboard
+                </Text>
               </Flex>
             </Link>
-            <Link href="#" underline="none">
+            <Link href="#" underline="none" color="gray">
               <Flex className="navigation-link">
                 <svg
                   width="16"
@@ -69,11 +87,13 @@ const Sidebar = (props: Props) => {
                     fill="#1D211C"
                   />
                 </svg>
-                <span className="menu-items">Calendar</span>
+                <Text as="label" size="3" weight="medium">
+                  Calendar
+                </Text>
               </Flex>
             </Link>
 
-            <Link href="#" underline="none">
+            <Link href="#" underline="none" color="gray">
               <Flex className="navigation-link">
                 <svg
                   width="16"
@@ -95,10 +115,12 @@ const Sidebar = (props: Props) => {
                     fill="#1D211C"
                   />
                 </svg>
-                <span className="menu-items">Events</span>
+                <Text as="label" size="3" weight="medium">
+                  Events
+                </Text>
               </Flex>
             </Link>
-            <Link href="#" underline="none">
+            <Link href="#" underline="none" color="gray">
               <Flex className="navigation-link">
                 <svg
                   width="16"
@@ -120,10 +142,12 @@ const Sidebar = (props: Props) => {
                     fill="#1D211C"
                   />
                 </svg>
-                <span className="menu-items">Offers & Deals</span>
+                <Text as="label" size="3" weight="medium">
+                  Offers & Deals
+                </Text>
               </Flex>
             </Link>
-            <Link href="#" underline="none">
+            <Link href="#" underline="none" color="gray">
               <Flex className="navigation-link">
                 <svg
                   width="16"
@@ -145,7 +169,9 @@ const Sidebar = (props: Props) => {
                     fill="#1D211C"
                   />
                 </svg>
-                <span className="menu-items">Settings</span>
+                <Text as="label" size="3" weight="medium">
+                  Settings
+                </Text>
               </Flex>
             </Link>
           </Box>
@@ -217,10 +243,19 @@ const Sidebar = (props: Props) => {
           <div className="tertiaryLinks">
             <Text as="label" size="2">
               <Flex gap="2">
-                <Switch size="1" /> Dark Mode
+                <label className="inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={isDarkMode}
+                    onClick={handleThemeChange}
+                    className="sr-only peer"
+                  />
+                  <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600" />
+                  <Text>Dark Mode</Text>
+                </label>
               </Flex>
             </Text>
-            <Flex direction="column" gap="3">
+            <Flex direction="column" gap="2">
               <Link
                 href="#"
                 size="1"
