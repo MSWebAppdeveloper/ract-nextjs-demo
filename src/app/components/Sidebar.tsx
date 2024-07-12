@@ -9,16 +9,17 @@ import {
     Card,
 } from "@radix-ui/themes";
 import React from "react";
-
+import { } from "module";
 type Props = {};
 
 const Sidebar = (props: Props) => {
     return (
         <>
-            <div id="sidebar">
-
+            <Box id="sidebar">
                 <div id="top">
-                    <Box className="logo"></Box>
+                    <Box className="logo">
+
+                    </Box>
 
 
                     <Box className="navigationMenu">
@@ -152,65 +153,73 @@ const Sidebar = (props: Props) => {
 
 
                     <Box className="events">
-                        <Text as="label" className="eventLabel"> Today's Event</Text>
-                        <Card> <Flex gap="3" align="center">
-                            <Avatar
-                                size="3"
-                                src="Avatar (2).png"
-                                radius="medium"
-                                fallback="T"
-                            />
+                        <Flex direction="column" gap="3" maxWidth="350px">
                             <Box>
-                                <Text as="div" size="2" color="gray">
-                                    Tourist
-                                </Text>
-                                <Text as="div" size="2" weight="bold">
-                                    The Viper Room
-                                </Text>
+                                <Text as="label" weight='bold' align='left'
+                                    color="gray" className="eventLabel"> Today's Event</Text>
                             </Box>
+                            <Card variant="surface">
+                                <Flex gap="3" align="center">
+                                    <Avatar
+                                        size="3"
+                                        src="Avatar (2).png"
+                                        radius="medium"
+                                        fallback="T"
+                                    />
+                                    <Box>
+                                        <Text as="div" size="2" color="gray">
+                                            Tourist
+                                        </Text>
+                                        <Text as="div" size="2" weight="bold">
+                                            The Viper Room
+                                        </Text>
+                                    </Box>
+                                </Flex>
+                            </Card>
+
+                            <Card variant="classic">
+                                <Flex gap="3" align="center">
+                                    <Avatar
+                                        size="3"
+                                        src="Avatar.png"
+                                        radius="medium"
+                                        fallback="T"
+                                    />
+                                    <Box>
+                                        <Text as="div" size="2" color="gray">
+                                            Jason Isbell
+                                        </Text>
+                                        <Text as="div" size="2" weight="bold">
+                                            The Wiltern
+                                        </Text>
+                                    </Box>
+                                </Flex>
+                            </Card>
+                            <Card>
+                                <Flex gap="3" align="center">
+                                    <Avatar
+                                        size="3"
+                                        src="Avatar (1).png"
+                                        radius="medium"
+                                        fallback="T"
+                                    />
+                                    <Box>
+                                        <Text as="div" size="2" color="gray">
+                                            Brenn!
+                                        </Text>
+                                        <Text as="div" size="2" weight="bold">
+                                            The Troubadour
+                                        </Text>
+                                    </Box>
+                                </Flex>
+                            </Card>
                         </Flex>
-                        </Card>
-                        <Card>
-                            <Flex gap="3" align="center">
-                                <Avatar
-                                    size="3"
-                                    src="Avatar.png"
-                                    radius="medium"
-                                    fallback="T"
-                                />
-                                <Box>
-                                    <Text as="div" size="2" color="gray">
-                                        Jason Isbell
-                                    </Text>
-                                    <Text as="div" size="2" weight="bold">
-                                        The Wiltern
-                                    </Text>
-                                </Box>
-                            </Flex>
-                        </Card>
-                        <Card>
-                            <Flex gap="3" align="center">
-                                <Avatar
-                                    size="3"
-                                    src="Avatar (1).png"
-                                    radius="medium"
-                                    fallback="T"
-                                />
-                                <Box>
-                                    <Text as="div" size="2" color="gray">
-                                        Brenn!
-                                    </Text>
-                                    <Text as="div" size="2" weight="bold">
-                                        The Troubadour
-                                    </Text>
-                                </Box>
-                            </Flex>
-                        </Card>
+
                     </Box>
                 </div>
 
                 <div id="bottom">
-                    <div className="tertiaryLinks">
+                    <Flex direction='column' className="tertiaryLinks">
                         <Text as="label" size="2">
                             <Flex gap="2">
                                 <Switch size="1" /> Dark Mode
@@ -236,10 +245,10 @@ const Sidebar = (props: Props) => {
                                 Privacy Policy
                             </Link>
                         </Flex>
-                    </div>
+                    </Flex>
                 </div>
 
-            </div>
+            </Box>
         </>
     );
 };

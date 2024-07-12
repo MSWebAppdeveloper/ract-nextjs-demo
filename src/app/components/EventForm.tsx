@@ -33,7 +33,7 @@ const EventForm = () => {
   const [savedData, setSavedData] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false); // State for showing delete confirmation dialog
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -78,7 +78,6 @@ const EventForm = () => {
     border: '2px dashed #0070f3',
     borderRadius: '4px',
     padding: '20px',
-    textAlign: 'center',
     cursor: 'pointer',
     marginBottom: '16px',
   };
@@ -95,7 +94,6 @@ const EventForm = () => {
     backgroundColor: 'rgb(207 253 210)',
     color: '#008000',
     padding: '10px',
-    position: 'absolute',
     top: '20px',
     right: '20px',
     width: 'auto',
@@ -151,7 +149,7 @@ const EventForm = () => {
     return true;
   };
 
-  const isValidUrl = (url) => {
+  const isValidUrl = (url: string) => {
     // Basic check for HTTPS URL
     return /^https:\/\//.test(url);
   };
@@ -171,14 +169,14 @@ const EventForm = () => {
     return options;
   };
 
-  const formatTime = (time) => {
+  const formatTime = (time: any) => {
     const [hour, minute] = time.split(':');
     const formattedHour = hour % 12 || 12; // Convert to 12-hour format
     const period = hour >= 12 ? 'PM' : 'AM'; // Determine AM/PM
     return `${formattedHour}:${minute} ${period}`; // Include space before AM/PM
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     const isValid = validateForm();
 
@@ -203,7 +201,7 @@ const EventForm = () => {
             endTime: '',
             timeZone: '',
             description: '',
-            videoUrl:''
+            videoUrl: ''
           });
         } else {
           console.error('Failed to save event data');
@@ -270,7 +268,7 @@ const EventForm = () => {
             type="text"
             name="eventName"
             style={inputStyle}
-            placeholder="Enter event name"
+            placeholder="Your event name"
             value={formData.eventName}
             onChange={handleInputChange}
           />
@@ -347,10 +345,10 @@ const EventForm = () => {
           </Box>
 
           <Flex gap="var(--Spacing9)">
-            <Button style={{ flex: 1 }} variant="primary" type="submit">
+            <Button style={{ flex: 1 }} color='blue' type="submit">
               Submit
             </Button>
-            <Button style={{ flex: 1 }} variant="secondary">
+            <Button style={{ flex: 1 }} color='gray'>
               Cancel
             </Button>
           </Flex>
@@ -364,10 +362,10 @@ const EventForm = () => {
           <h3>Delete Event</h3>
           <p>You are about to permanently delete this event. This action can't be undone.</p>
           <Flex gap="10px">
-            <Button variant="primary" onClick={handleDeleteConfirm}>
+            <Button color="blue" onClick={handleDeleteConfirm}>
               Delete
             </Button>
-            <Button variant="secondary" onClick={() => setShowConfirmation(false)}>
+            <Button color="gray" onClick={() => setShowConfirmation(false)}>
               Cancel
             </Button>
           </Flex>
