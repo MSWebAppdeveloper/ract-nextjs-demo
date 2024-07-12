@@ -1,9 +1,10 @@
 "use client"
 import React, { useState } from 'react';
 import Header from './Header';
-import { Flex, Box, Button } from '@radix-ui/themes';
+import { Flex, Box, Button, AlertDialog,Inset, Text, Strong, Card,  } from '@radix-ui/themes';
 import { useDropzone } from 'react-dropzone';
-import { InfoCircledIcon, Cross2Icon } from '@radix-ui/react-icons'; // Import Cross2Icon for delete action
+import { InfoCircledIcon, Cross2Icon, TrashIcon } from '@radix-ui/react-icons'; // Import Cross2Icon for delete action
+
 
 // Define your timezoneOptions array
 const timezoneOptions = [
@@ -32,8 +33,14 @@ const EventForm = () => {
   const [savedData, setSavedData] = useState(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [timeoutId, setTimeoutId] = useState();
+  const [uploadedImage, setUploadedImage] = useState(null);
+  // const [uploadedImage, setUploadedImage] = useState({
+  //   name:'',
+  //   size:'',
+  //   preview:'',
+  // });
 
-  const handleInputChange = (e:any) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -41,6 +48,11 @@ const EventForm = () => {
     });
     setValidationMessage('');
   };
+
+  
+  
+
+ 
 
   const pagestyle = {
     width: '1166px', // Fixed width
@@ -109,11 +121,25 @@ const EventForm = () => {
     cursor: 'pointer' // Add cursor pointer for clickable icon
   };
 
+  
+
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles) => {
-      console.log(acceptedFiles);
-    },
+      const file = acceptedFiles[0];
+      const previewUrl = URL.createObjectURL(file); // Create object URL for the dropped file
+      setUploadedImage({
+        file: file,
+        previewUrl: previewUrl
+      });
+    }
   });
+
+  const clearUploadedImage = () => {
+    if (uploadedImage) {
+      URL.revokeObjectURL(uploadedImage.previewUrl); // Revoke object URL to prevent memory leaks
+      setUploadedImage(null);
+    }
+  };
 
   const validateForm = () => {
     const missingFields = [];
@@ -147,7 +173,7 @@ const EventForm = () => {
     return true;
   };
 
-  const isValidUrl = (url:any) => {
+  const isValidUrl = (url: any) => {
     // Basic check for HTTPS URL
     return /^https:\/\//.test(url);
   };
@@ -167,14 +193,14 @@ const EventForm = () => {
     return options;
   };
 
-  const formatTime = (time:any) => {
+  const formatTime = (time: any) => {
     const [hour, minute] = time.split(':');
     const formattedHour = hour % 12 || 12; // Convert to 12-hour format
     const period = hour >= 12 ? 'PM' : 'AM'; // Determine AM/PM
     return `${formattedHour}:${minute} ${period}`; // Include space before AM/PM
   };
 
-  const handleSubmit = async (event:any) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
     const isValid = validateForm();
 
@@ -200,11 +226,11 @@ const EventForm = () => {
             endTime: '',
             timeZone: '',
             description: '',
-            videoUrl:''
+            videoUrl: ''
           });
 
           // Set timeout to hide success message after 7 seconds
-          const id:any = setTimeout(() => {
+          const id: any = setTimeout(() => {
             setShowSuccessMessage(false);
           }, 7000);
           setTimeoutId(id);
@@ -234,6 +260,7 @@ const EventForm = () => {
       console.error('Error retrieving event data:', error);
     }
   };
+
 
   const handleCloseSuccessMessage = () => {
     // Clear timeout and hide success message
@@ -338,23 +365,84 @@ const EventForm = () => {
             value={formData.videoUrl}
             onChange={handleInputChange}
           />
-
           <label style={labelStyle}>Banner Image</label>
-          <Box {...getRootProps({ style: dropzoneStyle })}>
-            <input {...getInputProps()} />
-            <p>Drag 'n' drop a file here, or click to select a file</p>
+<Box height="120px">
+      {uploadedImage ? (
+        
+          <Flex>
+          <Inset side="top" >
+            <img
+              src={uploadedImage.previewUrl} // Set src to the previewUrl of uploadedImage
+              alt={uploadedImage.file.name} // Use alt attribute with file name for accessibility
+              style={{
+                display: 'block',
+                objectFit: 'cover',
+                 width: '222px',
+                 height: '120px',
+                 borderRadius:"4px",
+                 backgroundColor: 'var(--gray-5)',
+                
+              }}
+            />
+          </Inset>
+         <Box height="76px" ml='8'>
+         
+          <Button variant="ghost" onClick={clearUploadedImage} mt='2' >
+            <TrashIcon color="red" />
+          </Button>
+          <Text as="p" size="1" weight='medium' mt='2'>
+           {uploadedImage.file.name}
+          </Text>
+          <Text as="p" size="1" weight='regular' mt='2'>
+             {Math.round(uploadedImage.file.size / 1024)} KB
+          </Text>
+          <Text>
+          </Text>
           </Box>
+          </Flex>
+        
 
-          <Flex gap="var(--Spacing9)">
-            <Button style={{ flex: 1 }} color="blue" type="submit">
+      ) : (
+        <Box {...getRootProps({ style: dropzoneStyle })} height="120px">
+          <input {...getInputProps()} />
+          <p>Drag 'n' drop a file here, or click to select a file</p>
+        </Box>
+      )}
+    </Box>
+
+          <Flex gap="var(--Spacing9)" mt="2">
+            <Button  color="grass" variant="soft" type="submit">
               Submit
             </Button>
-            <Button style={{ flex: 1 }} color="gray">
-              Cancel
-            </Button>
+
+            <AlertDialog.Root>
+              <AlertDialog.Trigger>
+                <Button ml="2" color='gray' variant="soft">Cancel</Button>
+              </AlertDialog.Trigger>
+              <AlertDialog.Content maxWidth="450px">
+                <AlertDialog.Title>Delete Event</AlertDialog.Title>
+                <AlertDialog.Description size="2">
+                  You are about to permanently delete this event. This action can't be undone.
+                </AlertDialog.Description>
+
+                <Flex gap="3" mt="4" justify="end">
+                  <AlertDialog.Cancel>
+                    <Button variant="soft" color="gray">
+                      Cancel
+                    </Button>
+                  </AlertDialog.Cancel>
+                  <AlertDialog.Action>
+                    <Button variant="solid" color="red">
+                      Delete
+                    </Button>
+                  </AlertDialog.Action>
+                </Flex>
+              </AlertDialog.Content>
+            </AlertDialog.Root>
           </Flex>
         </form>
       </Box>
+
     </div>
   );
 };
