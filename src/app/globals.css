@@ -361,7 +361,7 @@ flex-grow: 0;
     display: flex;
     gap: 16px;
   }
-
+}
   @media (max-width: 768px) {
     .date-time-row {
       flex-direction: column;
