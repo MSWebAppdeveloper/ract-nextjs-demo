@@ -1,8 +1,7 @@
 import React from 'react';
-import { Flex, Box, Avatar } from '@radix-ui/themes';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faBell, faUser } from '@fortawesome/free-solid-svg-icons';
-import { BellIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import { Flex, Box, Avatar, TextField, Kbd } from '@radix-ui/themes';
+
+import {  MagnifyingGlassIcon } from '@radix-ui/react-icons';
 
 const Header = () => {
   const headerStyle = {
@@ -13,36 +12,20 @@ const Header = () => {
     alignItems: 'center',
   };
 
-  const searchContainerStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: '5px',
-    padding: '0 10px',
-  };
 
-  const searchIconStyle = {
-    marginRight: '10px',
-  };
 
-  const searchInputStyle = {
-    border: 'none',
-    outline: 'none',
-    padding: '10px 0',
-    backgroundColor: 'transparent',
-  };
-
-  const iconContainerStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '15px',
-  };
 
   return (
     <Flex style={headerStyle}>
-      <Box style={searchContainerStyle}>
-        <MagnifyingGlassIcon />
-        <input type="text" placeholder="Search" style={searchInputStyle} />
+      <Box maxWidth="393px" height="40px">
+        <TextField.Root placeholder="Search ShowOps" size="3">
+          <TextField.Slot>
+            <MagnifyingGlassIcon height="16" width="16" />
+          </TextField.Slot>
+          <TextField.Slot>
+            <Kbd className="input-icon">⌘ S</Kbd>
+          </TextField.Slot>
+        </TextField.Root>
       </Box>
       <Flex gap="2">
 
