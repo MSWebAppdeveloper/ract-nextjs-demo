@@ -151,7 +151,7 @@ const EventForm = ({ focusable = true, ...props }: ExampleLayoutProps) => {
 
   const validateForm = () => {
     const missingFields = [];
-
+    console.log(formData);
   // Check for empty fields
   if (!formData.eventName.trim()) {
     missingFields.push('Event Name');
@@ -161,8 +161,12 @@ const EventForm = ({ focusable = true, ...props }: ExampleLayoutProps) => {
     missingFields.push('Date & Time');
   }
 
-  if (!formData.startTime.trim() || !formData.endTime.trim()) {
-    missingFields.push('Start Time and End Time');
+  if (!formData.startTime.trim()) {
+    missingFields.push('Start Time');
+  }
+
+  if (!formData.endTime.trim()) {
+    missingFields.push('End Time');
   }
 
   if (!formData.timeZone.trim()) {
@@ -170,41 +174,30 @@ const EventForm = ({ focusable = true, ...props }: ExampleLayoutProps) => {
   }
 
   // Perform format validations if fields are not empty
-  // if (formData.eventName.trim() && !formData.eventName.trim().match(/^[a-zA-Z0-9\-]+$/)) {
-  //   missingFields.push('Event Name (only characters, numbers, or hyphens)');
-  // }
+  if (formData.eventName.trim() && !formData.eventName.trim().match(/^[a-zA-Z0-9\-]+$/)) {
+    missingFields.push('Event Name (only characters, numbers, or hyphens)');
+  }
 
-  // if (formData.eventDate.trim() && !formData.eventDate.trim().match(/^\d{4}-\d{2}-\d{2}$/)) {
-  //   missingFields.push('Date & Time (YYYY-MM-DD format)');
-  // }
-
-  // if (formData.startTime.trim() && formData.endTime.trim() &&
-  //     (!formData.startTime.trim().match(/^\d{2}:\d{2}$/) || !formData.endTime.trim().match(/^\d{2}:\d{2}$/))) {
-  //   missingFields.push('Start Time and End Time (HH:MM format)');
-  // }
-
-  // if (formData.timeZone.trim() && !formData.timeZone.trim().match(/^[a-zA-Z\s]+$/)) {
-  //   missingFields.push('Time Zone (only characters)');
-  // }
-
+  if (formData.eventDate.trim() && !formData.eventDate.trim().match(/^\d{4}-\d{2}-\d{2}$/)) {
+    missingFields.push('Date & Time (YYYY-MM-DD format)');
+  }
   
+  if (formData.description.trim() && formData.description.length <= 15) {
+    missingFields.push('Description (must be more than 15 characters)');
+  }
 
-    if (formData.description.trim() && formData.description.length <= 15) {
-      missingFields.push('Description (must be more than 15 characters)');
-    }
+  if (formData.videoUrl.trim() && !isValidUrl(formData.videoUrl)) {
+    missingFields.push('Valid Video URL (must be a valid HTTPS link)');
+  }
 
-    if (formData.videoUrl.trim() && !isValidUrl(formData.videoUrl)) {
-      missingFields.push('Valid Video URL (must be a valid HTTPS link)');
-    }
+  if (uploadedImage && (!['image/jpeg', 'image/png'].includes(uploadedImage.file.type))) {
+    missingFields.push('Valid Banner Image (Only JPG and PNG images are allowed)');
+  }
 
-    if (uploadedImage && (!['image/jpeg', 'image/png'].includes(uploadedImage.file.type))) {
-      missingFields.push('Valid Banner Image (Only JPG and PNG images are allowed)');
-    }
-
-    if (missingFields.length > 0) {
-      setValidationMessage(`Missing or incorrect data in ${missingFields.join(', ')}.`);
-      return false;
-    }
+  if (missingFields.length > 0) {
+    setValidationMessage(`Missing or incorrect data in ${missingFields.join(', ')}.`);
+    return false;
+  }
 
     setValidationMessage('');
     return true;
@@ -244,6 +237,7 @@ const EventForm = ({ focusable = true, ...props }: ExampleLayoutProps) => {
     return `${formattedHour}:${minute}  `
   };
 
+  
   const handleSubmit = async (event: any) => { alert("hjhjhj");
     event.preventDefault();
     const isValid = validateForm();
@@ -326,7 +320,7 @@ const EventForm = ({ focusable = true, ...props }: ExampleLayoutProps) => {
     clearUploadedImage();
   };
   return (
-    <Box style={pagestyle}>
+    <Box className='' style={pagestyle}>
       <Header />
       {validationMessage && (
         <Box style={validationBoxStyle}>
@@ -694,7 +688,7 @@ const EventForm = ({ focusable = true, ...props }: ExampleLayoutProps) => {
               </Form.Field>
 
               <Flex gap="var(--Spacing9)" mt="2">
-                <Button color="grass" variant="soft" type="submit" onSubmit={handleSubmit}>Submit</Button>
+                <Button color="grass" variant="soft" type="submit" onSubmit={handleSubmit}>Create Event</Button>
                 <AlertDialog.Root>
                   <AlertDialog.Trigger>
                     <Button ml="2" color='gray' variant="soft">Cancel</Button>

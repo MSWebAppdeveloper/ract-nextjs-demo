@@ -7,7 +7,9 @@ import {
   Link,
   Flex,
   Text,
+  IconButton,
   Card,
+  Button,
 } from "@radix-ui/themes";
 import { useTheme } from "next-themes";
 import React, { useEffect, useState } from "react";
@@ -178,7 +180,7 @@ const Sidebar = (props: Props) => {
           </Box>
 
           <Box className="events">
-            <Text as="label" className="eventLabel" weight="bold" size="1">
+            <Text as="label"  weight="bold" size="1" >
               {" "}
               Today's Event
             </Text>
