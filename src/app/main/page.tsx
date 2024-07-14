@@ -1,16 +1,17 @@
 import React from 'react'
 import EventForm from '../components/EventForm'
 import Sidebar from '../components/Sidebar'
+import { Box } from '@radix-ui/themes'
 
 type Props = {}
 
 const Main = (props: Props) => {
     return (
         <>
-        <div className='inline-flex'>
+        <Box width='1512px' >
             <Sidebar />
             <EventForm />
-            </div>
+            </Box>
         </>
     )
 }
