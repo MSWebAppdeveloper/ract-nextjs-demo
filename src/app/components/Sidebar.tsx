@@ -51,14 +51,14 @@ const Sidebar = () => {
               <Flex direction='column' align='start' p='0px' flexGrow='0'>
                 {navigation.map((item, index) => (
                   <Box key={index} asChild width="202px">
-                    <a href="#">
+                    <Link href="/" >
                       <Flex direction="row" align="center" p="8px 16px" gap="16px">
                         <item.icon height="16px" width="16px" />
                         <Text as="div" size="3" color="gray" weight="medium">
                           {item.label}
                         </Text>
                       </Flex>
-                    </a>
+                    </Link>
                   </Box>
                 ))}
               </Flex>
