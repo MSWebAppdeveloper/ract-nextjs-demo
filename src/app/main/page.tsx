@@ -8,9 +8,9 @@ type Props = {}
 const Main = (props: Props) => {
     return (
         <>
-        <Box width='1512px' >
-            <Sidebar />
-            <EventForm />
+            <Box>
+                <Sidebar />
+                <EventForm width={{ initial: "100%", md: "1166px" }} />
             </Box>
         </>
     )
