@@ -32,9 +32,7 @@ import * as Toast from "@radix-ui/react-toast";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-type ExampleLayoutProps = React.ComponentPropsWithoutRef<typeof Flex> & {
-  focusable?: boolean;
-};
+
 
 interface FormData {
   eventName: string;
@@ -43,7 +41,9 @@ interface FormData {
   startTime: string;
   endTime: string;
   description: string;
-  videoUrl: string;
+  videoUrl: any;
+  bannerImage:any;
+  bannerImageUrl : any;
 }
 
 // Define your timezoneOptions array
@@ -57,8 +57,8 @@ const timezoneOptions = [
   // Add more timezone options as needed
 ];
 
-const EventForm = ({ focusable = true, ...props }: ExampleLayoutProps) => {
-  const tabIndex = focusable ? undefined : -1;
+const EventForm = ({ focusable = true, onNewEvent }) => {
+
   const [formData, setFormData] = useState<FormData>({
     eventName: "",
     eventDate: "",
@@ -67,6 +67,10 @@ const EventForm = ({ focusable = true, ...props }: ExampleLayoutProps) => {
     timeZone: "",
     description: "",
     videoUrl: "",
+    bannerImage: null,
+    bannerImageUrl : '',
+    bannerImageSize:''
+   
   });
 
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -78,6 +82,8 @@ const EventForm = ({ focusable = true, ...props }: ExampleLayoutProps) => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [timeoutId, setTimeoutId] = useState();
   const [uploadedImage, setUploadedImage] = useState("");
+  const [todayEvents, setTodayEvents] = useState([]);
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -137,8 +143,14 @@ const EventForm = ({ focusable = true, ...props }: ExampleLayoutProps) => {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: (acceptedFiles) => {
-      const file: any = acceptedFiles[0];
-      const previewUrl: any = URL.createObjectURL(file); // Create object URL for the dropped file
+      const file = acceptedFiles[0]; 
+      const previewUrl = URL.createObjectURL(file);
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        bannerImage: file,
+        bannerImageUrl: previewUrl,
+        bannerImageSize: file.size // Update bannerImage in formData
+      }));
       setUploadedImage({
         file: file,
         previewUrl: previewUrl,
@@ -148,14 +160,27 @@ const EventForm = ({ focusable = true, ...props }: ExampleLayoutProps) => {
 
   const clearUploadedImage = () => {
     if (uploadedImage) {
-      URL.revokeObjectURL(uploadedImage.previewUrl); // Revoke object URL to prevent memory leaks
+    //  URL.revokeObjectURL(uploadedImage.previewUrl); // Revoke object URL to prevent memory leaks
       setUploadedImage(null);
+    }
+  };
+
+  const clearImage = () => {
+    if (uploadedImage) {
+      URL.revokeObjectURL(uploadedImage.previewUrl); // Revoke object URL to prevent memory leaks
+      setUploadedImage(null); // Clear the uploaded image state
+      // Optionally, clear any other related form data state if needed
+      setFormData({
+        ...formData,
+        bannerImage: null, // Clear the banner image data in form data state
+        bannerImageUrl: '', // Clear the banner image URL in form data state
+        bannerImageSize: 0, // Clear the banner image size in form data state
+      });
     }
   };
 
   const validateForm = () => {
     const missingFields = [];
-    console.log(formData);
     // Check for empty fields
     if (!formData.eventName.trim()) {
       missingFields.push("Event Name");
@@ -269,7 +294,9 @@ const EventForm = ({ focusable = true, ...props }: ExampleLayoutProps) => {
 
         if (response.ok) {
           const data = await response.json();
-          setSavedData(data.eventData);
+          
+          setSavedData(data.eventData); 
+          onNewEvent(data.eventData); 
           setFormSubmitted(true);
           setShowSuccessMessage(true); // Show success message
           setFormData({
@@ -280,8 +307,12 @@ const EventForm = ({ focusable = true, ...props }: ExampleLayoutProps) => {
             timeZone: "",
             description: "",
             videoUrl: "",
+            bannerImage: null,
+            bannerImageUrl:'',
+            bannerImageSize:''
           });
-
+          clearUploadedImage();
+     
           // Set timeout to hide success message after 7 seconds
           const id: any = setTimeout(() => {
             setShowSuccessMessage(false);
@@ -302,7 +333,7 @@ const EventForm = ({ focusable = true, ...props }: ExampleLayoutProps) => {
     try {
       const response = await fetch("/api/events");
       if (response.ok) {
-        const data = await response.json();
+        const data = await response.json(); 
         setFormData(data); // Populate form fields with retrieved data
         setSavedData(null); // Clear saved data state after editing
         setFormSubmitted(false); // Reset form submission state
@@ -329,6 +360,9 @@ const EventForm = ({ focusable = true, ...props }: ExampleLayoutProps) => {
       timeZone: "",
       description: "",
       videoUrl: "",
+      bannerImage:null,
+      bannerImageUrl:'',
+      bannerImageSize:''
     });
     clearUploadedImage();
   };
@@ -808,229 +842,192 @@ const EventForm = ({ focusable = true, ...props }: ExampleLayoutProps) => {
                 </Skeleton>
               </Flex>
             </>
-          ) : (
-            <>
-              <Flex direction="column" gap="16px">
-                <Text size="6" weight="medium" highContrast>
-                  Create an event
-                </Text>
+          )  : (<>
+            <Flex direction="column" gap="16px">
+              <Text size="6" weight="medium" highContrast>
+                Create an event
+              </Text>
 
-                <Text as="div" size="2" weight="light" color="gray">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore
-                </Text>
-              </Flex>
+              <Text as="div" size="2" weight="light" color="gray">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore
+              </Text>
 
-              <Flex direction="column" gap="16px">
-                <Text className="text-[16px] font-medium leading-[24px]">
-                  Event Name
-                </Text>
+            </Flex>
 
-                <TextField.Root
-                  color="gray"
-                  variant="soft"
-                  size="3"
-                  type="text"
-                  name="eventName"
-                  value={formData.eventName}
-                  onChange={handleInputChange}
-                  placeholder="Your Event name"
-                />
-              </Flex>
 
-              <Flex direction="column" gap="8px">
-                <Text className="text-[16px] font-medium leading-[24px]">
-                  Date & Time
-                </Text>
+            <Flex direction="column" gap="8px">
+              <Text className="text-[16px] font-medium leading-[24px]">
+                Event Name
+              </Text>
 
-                <Flex gap="8px">
-                  <Flex width="281px" flexGrow="1">
-                    <TextField.Root
-                      color="gray"
-                      variant="soft"
-                      size="3"
-                      type="date"
-                      name="eventDate"
-                      style={inputStyle}
-                      placeholder="Select date"
-                      value={formData.eventDate}
-                      onChange={handleInputChange}
-                    />
-                    {/* <input
+              <TextField.Root
+                color="gray"
+                variant="soft"
+                size="3"
+                type="text"
+                name="eventName"
+                value={formData.eventName}
+                onChange={handleInputChange}
+                placeholder="Your Event name"
+              />
+            </Flex>
+
+
+
+            <Flex direction="column" gap="8px">
+              <Text className="text-[16px] font-medium leading-[24px]">
+                Date & Time
+              </Text>
+
+              <Flex gap="8px">
+                <Flex width="281px" flexGrow="1">
+                  <TextField.Root
+                    color="gray"
+                    variant="soft"
+                    size="3"
                     type="date"
                     name="eventDate"
                     style={inputStyle}
                     placeholder="Select date"
                     value={formData.eventDate}
                     onChange={handleInputChange}
-                  /> */}
-                    {/* <Select.Root
-                      size="3"
-                      value={formData.eventDate}
-                      onValueChange={(value) =>
-                        handleSelectChange(value, "eventDate")
-                      }
-                    >
-                      <Select.Trigger
-                        color="gray"
-                        name="eventDate"
-                        placeholder="Select date(s)..."
-                        className="w-full"
-                        variant="soft"
-                      >
-                        <Flex as="span" align="center" gap="2">
-                          <CalendarIcon width="18px" height="18px" />
-                          <Text>
-                            {formData.eventDate
-                              ? formData.eventDate.toLocaleDateString()
-                              : "Select date"}
-                          </Text>
-                        </Flex>
-                      </Select.Trigger>
-                      <Select.Content position="popper">
-                        {showDatePicker && (
-                          <DatePicker
-                            selected={formData.eventDate}
-                            onChange={handleDateChange}
-                            onClickOutside={() => setShowDatePicker(false)}
-                            inline
-                          />
-                        )}
-                      </Select.Content>
-                    </Select.Root> */}
-                  </Flex>
-                  <Flex width="281px">
-                    <Select.Root
-                      size="3"
-                      value={formData.timeZone}
-                      onValueChange={(value) =>
-                        handleSelectChange(value, "timeZone")
-                      }
-                    >
-                      <Select.Trigger
-                        color="gray"
-                        name="timeZone"
-                        placeholder="Time Zone"
-                        className="w-full"
-                        variant="soft"
-                      >
-                        <Flex as="span" align="center" gap="2">
-                          <GlobeIcon width="18px" height="18px" />
-                          <Text>
-                            {formData.timeZone
-                              ? getTimeZoneLabel(formData.timeZone)
-                              : "Select time zone"}
-                          </Text>
-                        </Flex>
-                      </Select.Trigger>
-                      <Select.Content position="popper">
-                        {timezoneOptions.map((tz) => (
-                          <Select.Item key={tz.value} value={tz.value}>
-                            <Flex as="span" align="center" gap="2">
-                              <Text>{tz.label}</Text>
-                            </Flex>
-                          </Select.Item>
-                        ))}
-                      </Select.Content>
-                    </Select.Root>
-                  </Flex>
+                  />
+                  
                 </Flex>
-
-                <Flex gap="8px">
-                  <Box width="281px">
-                    <Select.Root
-                      size="3"
-                      value={formData.startTime}
-                      onValueChange={(value) =>
-                        handleSelectChange(value, "startTime")
-                      }
+                <Flex width="281px">
+                  <Select.Root
+                    size="3"
+                    value={formData.timeZone}
+                    onValueChange={(value) =>
+                      handleSelectChange(value, "timeZone")
+                    }
+                  >
+                    <Select.Trigger
+                      color="gray"
+                      name="timeZone"
+                      placeholder="Time Zone"
+                      className="w-full"
+                      variant="soft"
                     >
-                      <Select.Trigger
-                        color="gray"
-                        name="startTime"
-                        placeholder="Start Time"
-                        className="w-full"
-                        variant="soft"
-                      >
-                        <Flex as="span" align="center" gap="2">
-                          <ClockIcon width="18px" height="18px" />
-                          <Text>
-                            {formData.startTime
-                              ? formData.startTime
-                              : "Start Time"}
-                          </Text>
-                        </Flex>
-                      </Select.Trigger>
-                      <Select.Content position="popper">
-                        {generateTimeOptions().map((time) => (
-                          <Select.Item
-                            key={time.props.value}
-                            value={time.props.value}
-                          >
-                            <Text> {time.props.children}</Text>
-                          </Select.Item>
-                        ))}
-                      </Select.Content>
-                    </Select.Root>
-                  </Box>
-
-                  <Box width="281px">
-                    <Select.Root
-                      size="3"
-                      value={formData.endTime}
-                      onValueChange={(value) =>
-                        handleSelectChange(value, "endTime")
-                      }
-                    >
-                      <Select.Trigger
-                        color="gray"
-                        name="endTime"
-                        placeholder="End Time"
-                        className="w-full"
-                        variant="soft"
-                      >
-                        <Flex as="span" align="center" gap="2">
-                          <ClockIcon width="18px" height="18px" />
-                          <Text>
-                            {formData.endTime ? formData.endTime : "End Time"}
-                          </Text>
-                        </Flex>
-                      </Select.Trigger>
-                      <Select.Content position="popper">
-                        {generateTimeOptions().map((time) => (
-                          <Select.Item
-                            key={time.props.value}
-                            value={time.props.value}
-                          >
-                            <Text> {time.props.children}</Text>
-                          </Select.Item>
-                        ))}
-                      </Select.Content>
-                    </Select.Root>
-                  </Box>
+                      <Flex as="span" align="center" gap="2">
+                        <GlobeIcon width="18px" height="18px" />
+                        <Text>
+                          {formData.timeZone
+                            ? getTimeZoneLabel(formData.timeZone)
+                            : "Select time zone"}
+                        </Text>
+                      </Flex>
+                    </Select.Trigger>
+                    <Select.Content position="popper">
+                      {timezoneOptions.map((tz) => (
+                        <Select.Item key={tz.value} value={tz.value}>
+                          <Flex as="span" align="center" gap="2">
+                            <Text>{tz.label}</Text>
+                          </Flex>
+                        </Select.Item>
+                      ))}
+                    </Select.Content>
+                  </Select.Root>
                 </Flex>
               </Flex>
 
+              <Flex gap="8px">
+                <Box width="281px">
+                  <Select.Root
+                    size="3"
+                    value={formData.startTime}
+                    onValueChange={(value) =>
+                      handleSelectChange(value, "startTime")
+                    }
+                  >
+                    <Select.Trigger
+                      color="gray"
+                      name="startTime"
+                      placeholder="Start Time"
+                      className="w-full"
+                      variant="soft"
+                    >
+                      <Flex as="span" align="center" gap="2">
+                        <ClockIcon width="18px" height="18px" />
+                        <Text>
+                          {formData.startTime
+                            ? formData.startTime
+                            : "Start Time"}
+                        </Text>
+                      </Flex>
+                    </Select.Trigger>
+                    <Select.Content position="popper">
+                      {generateTimeOptions().map((time) => (
+                        <Select.Item
+                          key={time.props.value}
+                          value={time.props.value}
+                        >
+                          <Text> {time.props.children}</Text>
+                        </Select.Item>
+                      ))}
+                    </Select.Content>
+                  </Select.Root>
+                </Box>
 
-
-              <Flex direction="column" gap="16px">
-                <Text className="text-[16px] font-medium leading-[24px]">
-                  Description
-                </Text>
-
-                <TextArea
-                  color="gray"
-                  variant="soft"
-                  size="3"
-                  name="description"
-                  value={formData.description}
-                  onChange={handleInputChange}
-                  placeholder="Add event description...."
-                  resize="both"
-                />
+                <Box width="281px">
+                  <Select.Root
+                    size="3"
+                    value={formData.endTime}
+                    onValueChange={(value) =>
+                      handleSelectChange(value, "endTime")
+                    }
+                  >
+                    <Select.Trigger
+                      color="gray"
+                      name="endTime"
+                      placeholder="End Time"
+                      className="w-full"
+                      variant="soft"
+                    >
+                      <Flex as="span" align="center" gap="2">
+                        <ClockIcon width="18px" height="18px" />
+                        <Text>
+                          {formData.endTime ? formData.endTime : "End Time"}
+                        </Text>
+                      </Flex>
+                    </Select.Trigger>
+                    <Select.Content position="popper">
+                      {generateTimeOptions().map((time) => (
+                        <Select.Item
+                          key={time.props.value}
+                          value={time.props.value}
+                        >
+                          <Text> {time.props.children}</Text>
+                        </Select.Item>
+                      ))}
+                    </Select.Content>
+                  </Select.Root>
+                </Box>
               </Flex>
+            </Flex>
 
-              <Flex direction="column" gap="16px">
+           
+            <Flex direction="column" gap="8px">
+              <Text className="text-[16px] font-medium leading-[24px]">
+                Description
+              </Text>
+
+              <TextArea
+                color="gray"
+                variant="soft"
+                size="3"
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
+                placeholder="Add event description...."
+                resize="both"
+              />
+            </Flex>
+
+
+            <Flex direction="column" gap="16px">
+              <Flex direction="column" gap="8px">
                 <Text className="text-[16px] font-medium leading-[24px]">
                   Video
                 </Text>
@@ -1049,55 +1046,41 @@ const EventForm = ({ focusable = true, ...props }: ExampleLayoutProps) => {
                     <Link2Icon height="16" width="16" />
                   </TextField.Slot>
                 </TextField.Root>
+              </Flex>
 
+              <Flex direction="column" gap="8px">
                 <Text className="text-[16px] font-medium leading-[24px]">
                   Banner Image
                 </Text>
 
-                {uploadedImage ? (
-                  <Flex width="473px" height="120px" gap="4px">
-                    <Box width="318px">
-                      <Grid columns="120px 1fr" gap="32px">
-                        <Flex width="120px" height="120px" p="0">
-                          <Inset
-                            side="left"
-                            pr="current"
-                            style={{ border: "1px", borderRadius: "4px" }}
-                          >
-                            <img
-                              src={uploadedImage.previewUrl}
-                              alt={uploadedImage.file.name}
-                              style={{
-                                objectFit: "cover",
-                                width: "100%",
-                                height: "100%",
-                              }}
-                            />
-                          </Inset>
-                        </Flex>
-                        <Flex
-                          direction="column"
-                          width="166px"
-                          gap="8px"
-                          style={{ justifyContent: "center" }}
-                        >
-                          <IconButton
-                            onClick={clearUploadedImage}
-                            color="crimson"
-                            variant="soft"
-                          >
-                            <TrashIcon width="18px" height="18px" />
-                          </IconButton>
-                          <Flex direction="column" gap="1">
-                            <Text size="1" weight="medium">
-                              {uploadedImage.file.name}
-                            </Text>
-                            <Text size="1" weight="light">
-                              {Math.round(uploadedImage.file.size / 1024)} KB
-                            </Text>
-                          </Flex>
-                        </Flex>
-                      </Grid>
+                {(uploadedImage || formData.bannerImage) ? (
+                  <Flex>
+                    <Box height="120px">
+                      <img
+                        src={uploadedImage ? uploadedImage.previewUrl : formData.bannerImageUrl}
+                        alt={uploadedImage ? uploadedImage.file.name : 'Banner Image'}
+                        style={{
+                          display: "block",
+                          objectFit: "cover",
+                          width: "222px",
+                          height: "120px",
+                          borderRadius: "4px",
+                          backgroundColor: "var(--gray-5)",
+                        }}
+                      />
+                    </Box>
+                    <Box height="76px" ml="8">
+                   
+                    <Button variant="ghost" onClick={clearImage} mt="2">
+                      <TrashIcon color="red" /> 
+                    </Button>
+                
+                  <Text as="p" size="1" weight="medium" mt="2">
+                    {uploadedImage ? uploadedImage.file.name : formData.bannerImage.path}
+                  </Text>
+                  <Text as="p" size="1" weight="regular" mt="2">
+                    {uploadedImage ? `${Math.round(uploadedImage.file.size / 1024)} KB` : `${Math.round(formData.bannerImageSize / 1024)} KB`}
+                  </Text>
                     </Box>
                   </Flex>
                 ) : (
@@ -1120,50 +1103,55 @@ const EventForm = ({ focusable = true, ...props }: ExampleLayoutProps) => {
                   </Box>
                 )}
               </Flex>
+            </Flex>
+            
+            <Flex gap="4">
 
-              <Flex gap="4">
-                <Button
-                  size="3"
-                  variant="soft"
-                  type="submit"
-                  onSubmit={handleSubmit}
-                >
-                  Create Event
-                </Button>
+              <Button
+                size="3"
+                variant="soft"
+                type="submit"
+                onSubmit={handleSubmit}
+              >
+                Create Event
+              </Button>
 
-                <AlertDialog.Root>
-                  <AlertDialog.Trigger>
-                    <Button color="gray" size="3" mt="2" variant="ghost">
-                      Cancel
-                    </Button>
-                  </AlertDialog.Trigger>
-                  <AlertDialog.Content maxWidth="450px">
-                    <AlertDialog.Title>Delete Event</AlertDialog.Title>
-                    <AlertDialog.Description size="2">
-                      You are about to permanently delete this event. This
-                      action can&apos;t be undone.
-                    </AlertDialog.Description>
-                    <Flex gap="3" mt="4" justify="end">
-                      <AlertDialog.Cancel>
-                        <Button variant="soft" color="gray">
-                          Cancel
-                        </Button>
-                      </AlertDialog.Cancel>
-                      <AlertDialog.Action>
-                        <Button
-                          variant="solid"
-                          color="red"
-                          onClick={clearFormData}
-                        >
-                          Delete
-                        </Button>
-                      </AlertDialog.Action>
-                    </Flex>
-                  </AlertDialog.Content>
-                </AlertDialog.Root>
-              </Flex>
-            </>
-          )}
+              <AlertDialog.Root>
+                <AlertDialog.Trigger>
+
+                  <Button color="gray" size="3" mt="2" variant="ghost">
+                    Cancel
+                  </Button>
+
+                </AlertDialog.Trigger>
+                <AlertDialog.Content maxWidth="450px">
+                  <AlertDialog.Title>Delete Event</AlertDialog.Title>
+                  <AlertDialog.Description size="2">
+                    You are about to permanently delete this event. This action
+                    can't be undone.
+                  </AlertDialog.Description>
+                  <Flex gap="3" mt="4" justify="end">
+                    <AlertDialog.Cancel>
+                      <Button variant="soft" color="gray">
+                        Cancel
+                      </Button>
+                    </AlertDialog.Cancel>
+                    <AlertDialog.Action>
+                      <Button
+                        variant="solid"
+                        color="red"
+                        onClick={clearFormData}
+                      >
+                        Delete
+                      </Button>
+                    </AlertDialog.Action>
+                  </Flex>
+                </AlertDialog.Content>
+              </AlertDialog.Root>
+
+            </Flex>
+          </>)}
+
         </Flex>
       </form>
     </Flex>
