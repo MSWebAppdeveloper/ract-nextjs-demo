@@ -116,7 +116,6 @@ const EventForm = ({ focusable = true, ...props }: ExampleLayoutProps) => {
   const inputStyle = {
     display: "block",
     width: "100%",
-    marginBottom: "16px",
     padding: "8px",
   };
 
