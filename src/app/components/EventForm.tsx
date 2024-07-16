@@ -621,22 +621,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
           ) : (
             <>
 
-              {/* <Flex width='393' height='60px'>
-                <Flex style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <Flex p='12px 42px' width='135.5px' gap='4px' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
 
-                  </Flex>
-                  <Flex width='122px' height='36px' style={{ border: '1px solid trasparent', borderRadius: '32px', background: '#2C333D' }}>
-
-
-                  </Flex>
-                  <Flex width='135.5px' height='60px' gap='10px' p='12px 28px' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-
-
-                  </Flex>
-                </Flex>
-
-              </Flex> */}
               <Flex direction="row" justify="between" className="mobile-menu">
                 <Box>
                   <IconButton size="3" color="gray" variant="soft" >
@@ -690,7 +675,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
 
                 <Flex gap="8px" className='sm-date'>
                   <Box width="281px" className="date-fields">
-                    <Flex direction='row'>
+                    <Flex direction='row' className=" input-d">
                       <TextField.Root
                         color="gray"
                         variant="soft"
@@ -699,6 +684,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                         name="eventDate"
                         style={inputStyle}
                         placeholder="Select date"
+
                         value={formData.eventDate}
                         onChange={handleInputChange}
                       />
@@ -941,7 +927,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                 </Flex>
               </Flex>
 
-              <Flex gap="4" align="center">
+              <Flex gap="4" align="center" mb='5'>
                 <Button
                   size="3"
                   variant="soft"

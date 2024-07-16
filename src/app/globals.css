@@ -49,6 +49,12 @@
 .NavigationMenu .Active {
   background-color: #00970016;
 }
+.input-d input {
+  display: unset;
+}
+.input-d {
+  width: 98%;
+}
 
 @media only screen and (max-width: 400px) {
   .navigationBar,
@@ -86,4 +92,7 @@
   .date-fields .input-f {
     width: 97% !important;
   }
+  .input-d {
+    width: 100%;
+    }
 }
