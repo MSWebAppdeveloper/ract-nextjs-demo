@@ -17,6 +17,15 @@
     color: inherit;
 }
 
+.paragraph p {
+    max-width: 340px !important;
+    margin: auto;
+}
+
+.input-field input {
+    display: unset;
+}
+
 .dark .menu-item:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
@@ -30,7 +39,7 @@
 }
 
 .mobile-menu {
-    /* display: none; */
+    display: none;
 }
 
 .NavigationMenu a {
@@ -50,6 +59,7 @@
 
     .mainContainer {
         margin-left: 0;
+        width: 100%;
     }
 
     .mainContainer form {
@@ -61,11 +71,17 @@
         padding: 0px 20px 20px 20px;
     }
 
-    .sm-date {
+    form .sm-date {
         display: block;
     }
 
     .mobile-menu {
-        display: block;
+        display: flex;
+        margin-top: 76px;
+    }
+
+    .sm-date .date-fields {
+        width: 100% !important;
+        margin-top: 8px;
     }
 }

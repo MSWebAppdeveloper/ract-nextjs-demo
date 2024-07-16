@@ -665,21 +665,22 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                 </Text>
 
                 <Flex gap="8px" className='sm-date'>
-                  <Box width="281px" flexGrow="1">
+                  <Box width="281px" flexGrow="1" className="date-fields">
                     <TextField.Root
                       color="gray"
                       variant="soft"
                       size="3"
                       type="date"
                       name="eventDate"
-                      style={inputStyle}
+                      // style={inputStyle}
                       placeholder="Select date"
                       value={formData.eventDate}
                       onChange={handleInputChange}
+                      className="input-field"
                     />
 
                   </Box>
-                  <Flex width="281px">
+                  <Flex width="281px" className="date-fields">
                     <Select.Root
                       size="3"
                       value={formData.timeZone}
@@ -715,8 +716,8 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                     </Select.Root>
                   </Flex>
                 </Flex>
-                <Flex gap="8px">
-                  <Box width="281px">
+                <Flex gap="8px" className='sm-date'>
+                  <Box width="281px" className="date-fields">
                     <Select.Root
                       size="3"
                       value={formData.startTime}
@@ -752,7 +753,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                       </Select.Content>
                     </Select.Root>
                   </Box>
-                  <Box width="281px">
+                  <Box width="281px" className="date-fields">
                     <Select.Root
                       size="3"
                       value={formData.endTime}
@@ -889,9 +890,9 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                         placeholder="Click to upload or drag and drop SVG, PNG, JPG or GIF (recommended size 1024x1024px) "
                       />
                       <input {...getInputProps()} />
-                      <Text align="center">
-                        Click to upload or drag and drop SVG, PNG, JPG or GIF
-                        (recommended size 1024x1024px){" "}
+                      <Text align="center" className='paragraph'>
+                        <p><a href="#" className="underline font-medium">Click to upload</a> or drag and drop SVG, PNG, JPG or GIF
+                          (recommended size 1024x1024px){" "}</p>
                       </Text>
 
                     </Box>
