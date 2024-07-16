@@ -109,7 +109,7 @@ const Sidebar = ({  formData }) => {
         <Flex className="events" direction="column" p="0px" gap="2">
           <Flex direction="column" p="4px 16px" gap="10px">
             <Text as="div" color="gray" weight="bold" size="1" align="left">
-              Today's Event
+              Today&apos;s Event
             </Text>
           </Flex>
 
