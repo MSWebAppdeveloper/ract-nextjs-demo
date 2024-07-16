@@ -61,6 +61,14 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
     bannerImageSize: ''
   });
 
+  // Get current date
+  const currentDate = new Date();
+  const formattedDate = currentDate.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [loading, setLoading] = useState(true);
   const [validationMessage, setValidationMessage] = useState("");
@@ -370,7 +378,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
               <Box>
                 <Flex align="center" style={{ width: '480px' }} className="bg-white border-gray-300 border justify-between items-center rounded-md p-[11px] title_action'_'description_action'] grid-cols-[auto_max-content] items-center data-[state=open]:animate-slideIn data-[state=closed]:animate-hide data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=cancel]:translate-x-0 data-[swipe=cancel]:transition-[transform_200ms_ease-out] data-[swipe=end]:animate-swipeOut flex">
                   <Box>
-                    <Text size="3">Event created on March 14, 2025!</Text>
+                    <Text size="3">Event created on {formattedDate}!</Text>
                   </Box>
 
                   <Flex direction="row" align="center">
