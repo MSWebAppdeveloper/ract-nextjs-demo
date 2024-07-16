@@ -18,9 +18,17 @@ import {
   MixerHorizontalIcon,
 } from '@radix-ui/react-icons';
 
-const Sidebar = () => {
+const events= [
+  { name: 'Tourist', venue: 'The Viper Room', avatar: 'Avatar (2).png' },
+  { name: 'Jason Isbell', venue: 'The Wiltern', avatar: 'Avatar.png' },
+  { name: 'Brenn!', venue: 'The Troubadour', avatar: 'Avatar (1).png' },
+]
+
+const Sidebar = ({ todayEvents, formData }) => {
+  // const events = todayEvents || [];
   const { theme, setTheme } = useTheme();
   const [isDarkMode, setIsDarkMode] = useState(theme === 'dark');
+  const [getEvents, setEvents] = useState([]);
 
   const handleThemeChange = () => {
     const newTheme = isDarkMode ? 'light' : 'dark';
@@ -31,6 +39,25 @@ const Sidebar = () => {
   useEffect(() => {
     setIsDarkMode(theme === 'dark');
   }, [theme]);
+
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch('/api/events');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setEvents(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setEvents([]);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <Flex
@@ -54,7 +81,9 @@ const Sidebar = () => {
           </Flex>
         </Flex>
 
+
         <Flex className="NavigationMenu" direction="column" p="0px" gap="2">
+
           <Flex direction='column' align='start' p='0px' flexGrow='0'>
             {[
               { icon: DashboardIcon, label: 'Dashboard' },
@@ -64,10 +93,10 @@ const Sidebar = () => {
               { icon: MixerHorizontalIcon, label: 'Settings' },
             ].map((item, index) => (
               <Box key={index} asChild width="202px">
-                <a href="#">
+                <a href="#" className="menu-item">
                   <Flex direction="row" align="center" p="8px 16px" gap="16px">
-                    <item.icon height="16px" width="16px" />
-                    <Text as="div" size="3" color="gray" weight="medium">
+                    <item.icon height="16px" width="16px" className="menu-icon" />
+                    <Text as="div" size="3" color="gray" weight="medium" className="menu-text">
                       {item.label}
                     </Text>
                   </Flex>
@@ -84,29 +113,47 @@ const Sidebar = () => {
             </Text>
           </Flex>
 
-          {[
-            { name: 'Tourist', venue: 'The Viper Room', avatar: 'Avatar (2).png' },
-            { name: 'Jason Isbell', venue: 'The Wiltern', avatar: 'Avatar.png' },
-            { name: 'Brenn!', venue: 'The Troubadour', avatar: 'Avatar (1).png' },
-          ].map((event, index) => (
-            <Flex key={index} direction="row" align="center" p="12px 16px" gap="16px">
+
+          {events.map((event, index) => (
+                <Flex key={index} direction="row" align="center" p="12px 16px" gap="16px">
+                  <Box asChild width="202px">
+                    <a href="#">
+                      <Flex gap="3" align="center">
+                        <Avatar size="3" src={event.avatar} radius="medium" fallback="T" />
+                        <Box>
+                          <Text as="div" size="1" weight="light">
+                            {event.name}
+                          </Text>
+                          <Text as="div" size="2" weight="medium">
+                            {event.venue}
+                          </Text>
+                        </Box>
+                      </Flex>
+                    </a>
+                  </Box>
+                </Flex>
+              ))}
+
+        {formData && formData.eventName && (
+            <Flex direction="row" align="center" p="12px 16px" gap="16px">
               <Box asChild width="202px">
+
                 <a href="#">
                   <Flex gap="3" align="center">
-                    <Avatar size="3" src={event.avatar} radius="medium" fallback="T" />
+                    <Avatar size="3" src={formData.bannerImageUrl} radius="medium" fallback="T" />
                     <Box>
                       <Text as="div" size="1" weight="light">
-                        {event.name}
+                        {formData.eventName}
                       </Text>
                       <Text as="div" size="2" weight="medium">
-                        {event.venue}
+                        {formData.description}
                       </Text>
                     </Box>
                   </Flex>
                 </a>
               </Box>
             </Flex>
-          ))}
+          )}
         </Flex>
       </Flex>
 
