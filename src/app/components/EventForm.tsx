@@ -82,7 +82,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [timeoutId, setTimeoutId] = useState();
   const [uploadedImage, setUploadedImage] = useState("");
-  const [todayEvents, setTodayEvents] = useState([]);
+
 
 
   useEffect(() => {

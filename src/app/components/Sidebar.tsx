@@ -24,7 +24,7 @@ const events= [
   { name: 'Brenn!', venue: 'The Troubadour', avatar: 'Avatar (1).png' },
 ]
 
-const Sidebar = ({ todayEvents, formData }) => {
+const Sidebar = ({  formData }) => {
   // const events = todayEvents || [];
   const { theme, setTheme } = useTheme();
   const [isDarkMode, setIsDarkMode] = useState(theme === 'dark');
