@@ -70,6 +70,7 @@ const Sidebar = ({  formData }) => {
       position="fixed"
       left="0"
       top="0"
+
     >
       <Flex className="top" direction="column" gap="6" m="0px auto" width="202px" flexGrow='0'>
         <Flex className="logo" direction="column" justify="center" p="10px" gap="10px">
@@ -83,18 +84,26 @@ const Sidebar = ({  formData }) => {
 
 
         <Flex className="NavigationMenu" direction="column" p="0px" gap="2">
-
+          <Box key='1' asChild width="202px">
+            <a href="#" className="Active">
+              <Flex direction="row" align="center" p="8px 16px" gap="16px" className="menu-item" >
+                <DashboardIcon height="16px" width="16px" className="menu-icon" />
+                <Text as="div" size="3" color="green" weight="medium" className="menu-text text-green-600">
+                  Dashboard
+                </Text>
+              </Flex>
+            </a>
+          </Box>
           <Flex direction='column' align='start' p='0px' flexGrow='0'>
             {[
-              { icon: DashboardIcon, label: 'Dashboard' },
               { icon: CalendarIcon, label: 'Calendar' },
               { icon: BookmarkIcon, label: 'Events' },
               { icon: BackpackIcon, label: 'Offers & Deals' },
               { icon: MixerHorizontalIcon, label: 'Settings' },
             ].map((item, index) => (
               <Box key={index} asChild width="202px">
-                <a href="#" className="menu-item">
-                  <Flex direction="row" align="center" p="8px 16px" gap="16px">
+                <a href="#">
+                  <Flex direction="row" align="center" p="8px 16px" gap="16px" className="menu-item">
                     <item.icon height="16px" width="16px" className="menu-icon" />
                     <Text as="div" size="3" color="gray" weight="medium" className="menu-text">
                       {item.label}
