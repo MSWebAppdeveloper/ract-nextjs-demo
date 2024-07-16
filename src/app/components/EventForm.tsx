@@ -440,7 +440,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                     Date & Time
                   </Text>
                   <Flex gap="8px">
-                    <Flex width="281px" flexGrow="1">
+                    <Flex width="281px" className="date-fields">
                       <Select.Root
                         size="3"
                       >
@@ -621,6 +621,22 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
           ) : (
             <>
 
+              {/* <Flex width='393' height='60px'>
+                <Flex style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <Flex p='12px 42px' width='135.5px' gap='4px' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
+
+                  </Flex>
+                  <Flex width='122px' height='36px' style={{ border: '1px solid trasparent', borderRadius: '32px', background: '#2C333D' }}>
+
+
+                  </Flex>
+                  <Flex width='135.5px' height='60px' gap='10px' p='12px 28px' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+
+
+                  </Flex>
+                </Flex>
+
+              </Flex> */}
               <Flex direction="row" justify="between" className="mobile-menu">
                 <Box>
                   <IconButton size="3" color="gray" variant="soft" >
@@ -673,7 +689,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                 </Text>
 
                 <Flex gap="8px" className='sm-date'>
-                  <Box width="281px" flexGrow="1">
+                  <Box width="281px" className="date-fields">
                     <Flex direction='row'>
                       <TextField.Root
                         color="gray"
@@ -688,9 +704,9 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                       />
                     </Flex>
                   </Box>
-                  <Flex width="281px">
-                    <Flex direction='row'>
-                      <Flex>
+                  <Flex gap="8px">
+                    <Box width="281px" className="date-fields">
+                      <Flex direction='row'>
                         <IconButton radius="none" style={{ border: "4px solid transparent", borderTopLeftRadius: '7px', borderBottomLeftRadius: '7px' }} size="3" color="gray" variant="soft">    <GlobeIcon width="18px" height="18px" /></IconButton>
                         <Select.Root
                           size="3"
@@ -703,7 +719,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                             color="gray"
                             name="timeZone"
                             placeholder="Time Zone"
-                            className="w-5/6"
+                            className="w-5/6 input-f"
                             variant="soft"
                             radius="none"
                             style={{ border: "4px solid transparent", borderTopRightRadius: '7px', borderBottomRightRadius: '7px' }}
@@ -720,19 +736,19 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                           <Select.Content position="popper">
                             {timezoneOptions.map((tz) => (
                               <Select.Item key={tz.value} value={tz.value}>
-                               
-                                  <Text>{tz.label}</Text>
-                               
+
+                                <Text>{tz.label}</Text>
+
                               </Select.Item>
                             ))}
                           </Select.Content>
                         </Select.Root>
                       </Flex>
-                    </Flex>
+                    </Box>
                   </Flex>
                 </Flex>
-                <Flex gap="8px">
-                  <Box width="281px">
+                <Flex gap="8px" className='sm-date'>
+                  <Box width="281px" className="date-fields">
                     <Flex direction='row'>
                       <IconButton radius="none" style={{ border: "4px solid transparent", borderTopLeftRadius: '7px', borderBottomLeftRadius: '7px' }} size="3" color="gray" variant="soft">   <ClockIcon width="18px" height="18px" /></IconButton>
                       <Select.Root
@@ -746,7 +762,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                           color="gray"
                           name="startTime"
                           placeholder="Start Time"
-                          className="w-5/6"
+                          className="w-5/6 input-f"
                           variant="soft"
                           radius="none"
                           style={{ border: "4px solid transparent", borderTopRightRadius: '7px', borderBottomRightRadius: '7px' }}
@@ -773,7 +789,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                       </Select.Root>
                     </Flex>
                   </Box>
-                  <Box width="281px">
+                  <Box width="281px" className="date-fields">
                     <Flex direction='row'>
                       <IconButton radius="none" style={{ border: "4px solid transparent", borderTopLeftRadius: '7px', borderBottomLeftRadius: '7px' }} size="3" color="gray" variant="soft"> <ClockIcon width="18px" height="18px" /></IconButton>
                       <Select.Root
@@ -787,7 +803,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                           color="gray"
                           name="endTime"
                           placeholder="End Time"
-                          className="w-5/6"
+                          className="w-5/6 input-f"
                           variant="soft"
                           radius="none"
                           style={{ border: "4px solid transparent", borderTopRightRadius: '7px', borderBottomRightRadius: '7px' }}

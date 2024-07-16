@@ -18,13 +18,13 @@ import {
   MixerHorizontalIcon,
 } from '@radix-ui/react-icons';
 
-const events= [
+const events = [
   { name: 'Tourist', venue: 'The Viper Room', avatar: 'Avatar (2).png' },
   { name: 'Jason Isbell', venue: 'The Wiltern', avatar: 'Avatar.png' },
   { name: 'Brenn!', venue: 'The Troubadour', avatar: 'Avatar (1).png' },
 ]
 
-const Sidebar = ({  formData }) => {
+const Sidebar = ({ formData }) => {
   // const events = todayEvents || [];
   const { theme, setTheme } = useTheme();
   const [isDarkMode, setIsDarkMode] = useState(theme === 'dark');
@@ -124,26 +124,26 @@ const Sidebar = ({  formData }) => {
 
 
           {events.map((event, index) => (
-                <Flex key={index} direction="row" align="center" p="12px 16px" gap="16px">
-                  <Box asChild width="202px">
-                    <a href="#">
-                      <Flex gap="3" align="center">
-                        <Avatar size="3" src={event.avatar} radius="medium" fallback="T" />
-                        <Box>
-                          <Text as="div" size="1" weight="light">
-                            {event.name}
-                          </Text>
-                          <Text as="div" size="2" weight="medium">
-                            {event.venue}
-                          </Text>
-                        </Box>
-                      </Flex>
-                    </a>
-                  </Box>
-                </Flex>
-              ))}
+            <Flex key={index} direction="row" align="center" p="12px 16px" gap="16px" className="menu-item">
+              <Box asChild width="202px">
+                <a href="#">
+                  <Flex gap="3" align="center">
+                    <Avatar size="3" src={event.avatar} radius="medium" fallback="T" />
+                    <Box>
+                      <Text as="div" size="1" weight="light">
+                        {event.name}
+                      </Text>
+                      <Text as="div" size="2" weight="medium">
+                        {event.venue}
+                      </Text>
+                    </Box>
+                  </Flex>
+                </a>
+              </Box>
+            </Flex>
+          ))}
 
-        {formData && formData.eventName && (
+          {formData && formData.eventName && (
             <Flex direction="row" align="center" p="12px 16px" gap="16px">
               <Box asChild width="202px">
 
