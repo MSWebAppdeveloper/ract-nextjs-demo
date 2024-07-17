@@ -17,7 +17,7 @@ const Main = (props: Props) => {
     return (
         <>
 
-        <Box width='1512px' >
+        <Box width={{initial:'393px',sm:'1512px'}} >
             <Sidebar todayEvents={events} formData={formData}/>
             <EventForm onNewEvent={handleFormSubmit}  />
 

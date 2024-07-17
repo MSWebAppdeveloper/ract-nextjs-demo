@@ -356,54 +356,25 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
       position='relative'
     >
       <Header />
-      <Box width="281px" className="date-fields">
-        <Flex direction='column' gap="8px">
-          <Text className="text-[16px] font-medium leading-[24px]">
-            Date & Time
-          </Text>
-          <TextField.Root>
-            <DatePicker
-              selected={startDate}
-              onChange={handleDateChange}
+      <Flex>
+        <Flex direction="row" justify="between" className="mobile-menu">
+          <Box>
+            <IconButton size="3" color="gray" variant="soft" >
+              <a href="#">
+                <ChevronLeftIcon height={18} width={18} />
+              </a>
+            </IconButton>
+          </Box>
 
-            /></TextField.Root>
+          <Box>
+            <IconButton size="3" color="green" variant="soft" >
+              <a href="#">
+                <HamburgerMenuIcon height={18} width={18} />
+              </a>
+            </IconButton>
+          </Box>
         </Flex>
-        <Flex direction="row">
-          <IconButton
-            radius="none"
-            style={{ border: "4px solid transparent", borderTopLeftRadius: '7px', borderBottomLeftRadius: '7px' }}
-            size="3"
-            color="gray"
-            variant="soft"
-          >
-            <CalendarIcon width="18px" height="18px" />
-          </IconButton>
-          <Select.Root size="3">
-            <Select.Trigger
-              color="gray"
-              name="date"
-              placeholder="Select date"
-              className="w-5/6 input-f"
-              variant="soft"
-              radius="none"
-              style={{ border: "4px solid transparent", borderTopRightRadius: '7px', borderBottomRightRadius: '7px' }}
-            >
-              <Flex as="span" align="center" gap="2">
-                <Text>{startDate ? startDate.toLocaleDateString() : "Select date"}</Text>
-              </Flex>
-            </Select.Trigger>
-            <Select.Content position="popper">
-              <Select.Item value="value">
-                <DatePicker
-                  selected={startDate}
-                  onChange={handleDateChange}
-                  dateFormat="Pp"
-                />
-              </Select.Item>
-            </Select.Content>
-          </Select.Root>
-        </Flex>
-      </Box>
+      </Flex>
       <form onSubmit={handleSubmit}>
         <Flex className="form" direction="column" gap="64px" width="570px">
           {validationMessage && (
@@ -663,23 +634,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
             <>
 
 
-              <Flex direction="row" justify="between" className="mobile-menu">
-                <Box>
-                  <IconButton size="3" color="gray" variant="soft" >
-                    <a href="#">
-                      <ChevronLeftIcon height={18} width={18} />
-                    </a>
-                  </IconButton>
-                </Box>
 
-                <Box>
-                  <IconButton size="3" color="green" variant="soft" >
-                    <a href="#">
-                      <HamburgerMenuIcon height={18} width={18} />
-                    </a>
-                  </IconButton>
-                </Box>
-              </Flex>
 
               <Flex direction="column" gap="16px">
                 <Text size="6" weight="medium" highContrast>
