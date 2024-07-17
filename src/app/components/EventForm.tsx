@@ -356,6 +356,24 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
       ml="346px"
     >
       <Header />
+      <Flex direction="row" justify="between" className="mobile-menu">
+                <Box>
+                  <IconButton size="3" color="gray" variant="soft" >
+                    <a href="#">
+                      <ChevronLeftIcon height={18} width={18} />
+                    </a>
+                  </IconButton>
+                </Box>
+
+                <Box>
+                  <IconButton size="3" color="green" variant="soft" >
+                    <a href="#">
+                      <HamburgerMenuIcon height={18} width={18} />
+                    </a>
+                  </IconButton>
+                </Box>
+              </Flex>
+              
       <form onSubmit={handleSubmit}>
         <Flex className="form" direction="column" gap="64px" width="570px">
           {validationMessage && (
@@ -440,7 +458,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                     Date & Time
                   </Text>
                   <Flex gap="8px">
-                    <Flex width="281px" className="date-fields">
+                    <Flex width="281px" flexGrow="1">
                       <Select.Root
                         size="3"
                       >
@@ -488,7 +506,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                         <Select.Content position="popper">
                           <Select.Item>
                             <Flex as="span" align="center" gap="2">
-                              <Text>labell</Text>
+                              <Text>label</Text>
                             </Flex>
                           </Select.Item>
 
@@ -513,7 +531,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                           </Flex>
                         </Select.Trigger>
                         <Select.Content position="popper">
-                          <Select.Item value="a" >
+                          <Select.Item >
                             <Text>Time</Text>
                           </Select.Item>
                         </Select.Content>
@@ -537,7 +555,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                           </Flex>
                         </Select.Trigger>
                         <Select.Content position="popper">
-                          <Select.Item value="a">
+                          <Select.Item>
                             <Text>Time</Text>
                           </Select.Item>
                         </Select.Content>
@@ -622,24 +640,6 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
             <>
 
 
-              <Flex direction="row" justify="between" className="mobile-menu">
-                <Box>
-                  <IconButton size="3" color="gray" variant="soft" >
-                    <a href="#">
-                      <ChevronLeftIcon height={18} width={18} />
-                    </a>
-                  </IconButton>
-                </Box>
-
-                <Box>
-                  <IconButton size="3" color="green" variant="soft" >
-                    <a href="#">
-                      <HamburgerMenuIcon height={18} width={18} />
-                    </a>
-                  </IconButton>
-                </Box>
-              </Flex>
-
               <Flex direction="column" gap="16px">
                 <Text size="6" weight="medium" highContrast>
                   Create an event
@@ -674,145 +674,126 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                 </Text>
 
                 <Flex gap="8px" className='sm-date'>
-                  <Box width="281px" className="date-fields">
-                    <Flex direction='row' className=" input-d">
-                      <TextField.Root
-                        color="gray"
-                        variant="soft"
-                        size="3"
-                        type="date"
-                        name="eventDate"
-                        style={inputStyle}
-                        placeholder="Select date"
+                  <Box width="281px" flexGrow="1">
+                    <TextField.Root
+                      color="gray"
+                      variant="soft"
+                      size="3"
+                      type="date"
+                      name="eventDate"
+                      style={inputStyle}
+                      placeholder="Select date"
+                      value={formData.eventDate}
+                      onChange={handleInputChange}
+                    />
 
-                        value={formData.eventDate}
-                        onChange={handleInputChange}
-                      />
-                    </Flex>
                   </Box>
-                  <Flex gap="8px">
-                    <Box width="281px" className="date-fields">
-                      <Flex direction='row'>
-                        <IconButton radius="none" style={{ border: "4px solid transparent", borderTopLeftRadius: '7px', borderBottomLeftRadius: '7px' }} size="3" color="gray" variant="soft">    <GlobeIcon width="18px" height="18px" /></IconButton>
-                        <Select.Root
-                          size="3"
-                          value={formData.timeZone}
-                          onValueChange={(value) =>
-                            handleSelectChange(value, "timeZone")
-                          }
-                        >
-                          <Select.Trigger
-                            color="gray"
-                            name="timeZone"
-                            placeholder="Time Zone"
-                            className="w-5/6 input-f"
-                            variant="soft"
-                            radius="none"
-                            style={{ border: "4px solid transparent", borderTopRightRadius: '7px', borderBottomRightRadius: '7px' }}
-                          >
+                  <Flex width="281px">
+                    <Select.Root
+                      size="3"
+                      value={formData.timeZone}
+                      onValueChange={(value) =>
+                        handleSelectChange(value, "timeZone")
+                      }
+                    >
+                      <Select.Trigger
+                        color="gray"
+                        name="timeZone"
+                        placeholder="Time Zone"
+                        className="w-full"
+                        variant="soft"
+                      >
+                        <Flex as="span" align="center" gap="2">
+                          <GlobeIcon width="18px" height="18px" />
+                          <Text>
+                            {formData.timeZone
+                              ? getTimeZoneLabel(formData.timeZone)
+                              : "Select time zone"}
+                          </Text>
+                        </Flex>
+                      </Select.Trigger>
+                      <Select.Content position="popper">
+                        {timezoneOptions.map((tz) => (
+                          <Select.Item key={tz.value} value={tz.value}>
                             <Flex as="span" align="center" gap="2">
-
-                              <Text>
-                                {formData.timeZone
-                                  ? getTimeZoneLabel(formData.timeZone)
-                                  : "Select time zone"}
-                              </Text>
+                              <Text>{tz.label}</Text>
                             </Flex>
-                          </Select.Trigger>
-                          <Select.Content position="popper">
-                            {timezoneOptions.map((tz) => (
-                              <Select.Item key={tz.value} value={tz.value}>
-
-                                <Text>{tz.label}</Text>
-
-                              </Select.Item>
-                            ))}
-                          </Select.Content>
-                        </Select.Root>
-                      </Flex>
-                    </Box>
+                          </Select.Item>
+                        ))}
+                      </Select.Content>
+                    </Select.Root>
                   </Flex>
                 </Flex>
-                <Flex gap="8px" className='sm-date'>
-                  <Box width="281px" className="date-fields">
-                    <Flex direction='row'>
-                      <IconButton radius="none" style={{ border: "4px solid transparent", borderTopLeftRadius: '7px', borderBottomLeftRadius: '7px' }} size="3" color="gray" variant="soft">   <ClockIcon width="18px" height="18px" /></IconButton>
-                      <Select.Root
-                        size="3"
-                        value={formData.startTime}
-                        onValueChange={(value) =>
-                          handleSelectChange(value, "startTime")
-                        }
+                <Flex gap="8px">
+                  <Box width="281px">
+                    <Select.Root
+                      size="3"
+                      value={formData.startTime}
+                      onValueChange={(value) =>
+                        handleSelectChange(value, "startTime")
+                      }
+                    >
+                      <Select.Trigger
+                        color="gray"
+                        name="startTime"
+                        placeholder="Start Time"
+                        className="w-full"
+                        variant="soft"
                       >
-                        <Select.Trigger
-                          color="gray"
-                          name="startTime"
-                          placeholder="Start Time"
-                          className="w-5/6 input-f"
-                          variant="soft"
-                          radius="none"
-                          style={{ border: "4px solid transparent", borderTopRightRadius: '7px', borderBottomRightRadius: '7px' }}
-                        >
-                          <Flex as="span" align="center" gap="2">
-
-                            <Text>
-                              {formData.startTime
-                                ? formData.startTime
-                                : "Start Time"}
-                            </Text>
-                          </Flex>
-                        </Select.Trigger>
-                        <Select.Content position="popper">
-                          {generateTimeOptions().map((time) => (
-                            <Select.Item
-                              key={time}
-                              value={time}
-                            >
-                              <Text> {time}</Text>
-                            </Select.Item>
-                          ))}
-                        </Select.Content>
-                      </Select.Root>
-                    </Flex>
+                        <Flex as="span" align="center" gap="2">
+                          <ClockIcon width="18px" height="18px" />
+                          <Text>
+                            {formData.startTime
+                              ? formData.startTime
+                              : "Start Time"}
+                          </Text>
+                        </Flex>
+                      </Select.Trigger>
+                      <Select.Content position="popper">
+                        {generateTimeOptions().map((time) => (
+                          <Select.Item
+                            key={time}
+                            value={time}
+                          >
+                            <Text> {time}</Text>
+                          </Select.Item>
+                        ))}
+                      </Select.Content>
+                    </Select.Root>
                   </Box>
-                  <Box width="281px" className="date-fields">
-                    <Flex direction='row'>
-                      <IconButton radius="none" style={{ border: "4px solid transparent", borderTopLeftRadius: '7px', borderBottomLeftRadius: '7px' }} size="3" color="gray" variant="soft"> <ClockIcon width="18px" height="18px" /></IconButton>
-                      <Select.Root
-                        size="3"
-                        value={formData.endTime}
-                        onValueChange={(value) =>
-                          handleSelectChange(value, "endTime")
-                        }
+                  <Box width="281px">
+                    <Select.Root
+                      size="3"
+                      value={formData.endTime}
+                      onValueChange={(value) =>
+                        handleSelectChange(value, "endTime")
+                      }
+                    >
+                      <Select.Trigger
+                        color="gray"
+                        name="endTime"
+                        placeholder="End Time"
+                        className="w-full"
+                        variant="soft"
                       >
-                        <Select.Trigger
-                          color="gray"
-                          name="endTime"
-                          placeholder="End Time"
-                          className="w-5/6 input-f"
-                          variant="soft"
-                          radius="none"
-                          style={{ border: "4px solid transparent", borderTopRightRadius: '7px', borderBottomRightRadius: '7px' }}
-                        >
-                          <Flex as="span" align="center" gap="2">
-
-                            <Text>
-                              {formData.endTime ? formData.endTime : "End Time"}
-                            </Text>
-                          </Flex>
-                        </Select.Trigger>
-                        <Select.Content position="popper">
-                          {generateTimeOptions().map((time) => (
-                            <Select.Item
-                              key={time}
-                              value={time}
-                            >
-                              <Text> {time}</Text>
-                            </Select.Item>
-                          ))}
-                        </Select.Content>
-                      </Select.Root>
-                    </Flex>
+                        <Flex as="span" align="center" gap="2">
+                          <ClockIcon width="18px" height="18px" />
+                          <Text>
+                            {formData.endTime ? formData.endTime : "End Time"}
+                          </Text>
+                        </Flex>
+                      </Select.Trigger>
+                      <Select.Content position="popper">
+                        {generateTimeOptions().map((time) => (
+                          <Select.Item
+                            key={time}
+                            value={time}
+                          >
+                            <Text> {time}</Text>
+                          </Select.Item>
+                        ))}
+                      </Select.Content>
+                    </Select.Root>
                   </Box>
                 </Flex>
               </Flex>
@@ -917,9 +898,9 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                         placeholder="Click to upload or drag and drop SVG, PNG, JPG or GIF (recommended size 1024x1024px) "
                       />
                       <input {...getInputProps()} />
-                      <Text align="center" className='paragraph'>
-                        <p><a href="#" className="underline font-medium">Click to upload</a> or drag and drop SVG, PNG, JPG or GIF
-                          (recommended size 1024x1024px){" "}</p>
+                      <Text align="center">
+                        Click to upload or drag and drop SVG, PNG, JPG or GIF
+                        (recommended size 1024x1024px){" "}
                       </Text>
 
                     </Box>
@@ -927,7 +908,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                 </Flex>
               </Flex>
 
-              <Flex gap="4" align="center" mb='5'>
+              <Flex gap="4" align="center">
                 <Button
                   size="3"
                   variant="soft"

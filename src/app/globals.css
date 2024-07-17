@@ -45,6 +45,9 @@
 .NavigationMenu a {
   border-radius: 6px;
 }
+.mobile-menu {
+  padding: 0px 32px 0px 0px;
+}
 
 .NavigationMenu .Active {
   background-color: #00970016;
@@ -83,6 +86,7 @@
   .mobile-menu {
     display: flex;
     margin-top: 76px;
+    padding: 0px 20px 0px 20px;
   }
 
   .sm-date .date-fields {
