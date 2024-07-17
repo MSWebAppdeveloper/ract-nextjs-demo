@@ -144,7 +144,7 @@ const Sidebar = ({ formData }) => {
           ))}
 
           {formData && formData.eventName && (
-            <Flex direction="row" align="center" p="12px 16px" gap="16px">
+            <Flex direction="row" align="center" p="12px 16px" gap="16px" className="menu-item">
               <Box asChild width="202px">
 
                 <a href="#">
@@ -154,7 +154,7 @@ const Sidebar = ({ formData }) => {
                       <Text as="div" size="1" weight="light">
                         {formData.eventName}
                       </Text>
-                      <Text as="div" size="2" weight="medium">
+                      <Text as="div" size="2" weight="medium" >
                         {formData.description}
                       </Text>
                     </Box>

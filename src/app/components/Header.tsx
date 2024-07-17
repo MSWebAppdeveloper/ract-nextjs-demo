@@ -4,7 +4,8 @@ import { BellIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
 
 const Header = () => {
   return (
-    <Flex className="header" justify="between" p="24px 32px 24px 0" width="1166px" height="88px" gap="552px" flexGrow='0'>
+    <Flex className="header" justify="between" p="24px 32px 24px 0px" width="1166px" height="88px" gap="552px" flexGrow='0'>
+
       <Flex direction="column" gap="8px" width="393px" height="40px">
         <TextField.Root placeholder="Search ShowOps" size="3">
           <TextField.Slot>
@@ -21,8 +22,7 @@ const Header = () => {
           </TextField.Slot>
         </TextField.Root>
       </Flex>
-      <Flex gap="16px" width="96px" height="40">
-        
+      <Flex gap="16px" width="96px" height="40">        
         <IconButton size="3" color="gray" variant="soft">
           <a href="#">
             <BellIcon height={18} width={18} />
@@ -34,7 +34,6 @@ const Header = () => {
           fallback="A"
           variant="solid"
         />
-
       </Flex>
     </Flex>
   );

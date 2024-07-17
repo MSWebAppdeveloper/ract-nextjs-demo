@@ -16,6 +16,8 @@ import {
   Skeleton,
   IconButton,
   Grid,
+  Popover,
+  Link,
 } from "@radix-ui/themes";
 import { useDropzone } from "react-dropzone";
 import {
@@ -23,19 +25,18 @@ import {
   Cross2Icon,
   TrashIcon,
   GlobeIcon,
-  SunIcon,
-  MoonIcon,
+
   ClockIcon,
   Link2Icon,
   CalendarIcon,
 } from "@radix-ui/react-icons"; // Import Cross2Icon for delete action
-import * as Toast from "@radix-ui/react-toast";
+
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+type ValuePiece = Date | null;
 
-
-
+type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 // Define your timezoneOptions array
 const timezoneOptions = [
@@ -60,7 +61,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
     bannerImageUrl: '',
     bannerImageSize: ''
   });
-
+  const [startDate, setStartDate] = useState(new Date());
   // Get current date
   const currentDate = new Date();
   const formattedDate = currentDate.toLocaleDateString('en-US', {
@@ -103,13 +104,11 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
   };
 
   const handleDateChange = (date: Date | null) => {
-    if (date !== null) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        eventDate: date,
-      }));
-    }
-    setShowDatePicker(false); // Always close DatePicker after date selection
+    setStartDate(date);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      eventDate: date,
+    }));
   };
 
   const inputStyle = {
@@ -119,7 +118,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
   };
 
   const dropzoneStyle = {
-    borderRadius: "4px",
+    borderRadius: "6px",
     padding: "20px",
     textAlign: "center",
     cursor: "pointer",
@@ -354,8 +353,57 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
       right="0"
       top="0"
       ml="346px"
+      position='relative'
     >
       <Header />
+      <Box width="281px" className="date-fields">
+        <Flex direction='column' gap="8px">
+          <Text className="text-[16px] font-medium leading-[24px]">
+            Date & Time
+          </Text>
+          <TextField.Root>
+            <DatePicker
+              selected={startDate}
+              onChange={handleDateChange}
+
+            /></TextField.Root>
+        </Flex>
+        <Flex direction="row">
+          <IconButton
+            radius="none"
+            style={{ border: "4px solid transparent", borderTopLeftRadius: '7px', borderBottomLeftRadius: '7px' }}
+            size="3"
+            color="gray"
+            variant="soft"
+          >
+            <CalendarIcon width="18px" height="18px" />
+          </IconButton>
+          <Select.Root size="3">
+            <Select.Trigger
+              color="gray"
+              name="date"
+              placeholder="Select date"
+              className="w-5/6 input-f"
+              variant="soft"
+              radius="none"
+              style={{ border: "4px solid transparent", borderTopRightRadius: '7px', borderBottomRightRadius: '7px' }}
+            >
+              <Flex as="span" align="center" gap="2">
+                <Text>{startDate ? startDate.toLocaleDateString() : "Select date"}</Text>
+              </Flex>
+            </Select.Trigger>
+            <Select.Content position="popper">
+              <Select.Item value="value">
+                <DatePicker
+                  selected={startDate}
+                  onChange={handleDateChange}
+                  dateFormat="Pp"
+                />
+              </Select.Item>
+            </Select.Content>
+          </Select.Root>
+        </Flex>
+      </Box>
       <form onSubmit={handleSubmit}>
         <Flex className="form" direction="column" gap="64px" width="570px">
           {validationMessage && (
@@ -367,46 +415,39 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
             </Callout.Root>
           )}
           {showSuccessMessage && (
-            <Box
-              position="absolute"
-              top="96px"
-              right="32px"
-              p="0px"
-              min-width="480px"
-              borderradius="6px"
-            >
-              <Box>
-                <Flex align="center" style={{ width: '480px' }} className="bg-white border-gray-300 border justify-between items-center rounded-md p-[11px] title_action'_'description_action'] grid-cols-[auto_max-content] items-center data-[state=open]:animate-slideIn data-[state=closed]:animate-hide data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=cancel]:translate-x-0 data-[swipe=cancel]:transition-[transform_200ms_ease-out] data-[swipe=end]:animate-swipeOut flex">
-                  <Box>
-                    <Text size="3">Event created on {formattedDate}!</Text>
-                  </Box>
 
-                  <Flex direction="row" align="center">
-                    <Box
-                      className="[grid-area:_action]"
-                      asChild
-                      altText="Goto schedule to undo"
-                    >
-                      <Text size="3">
-                        <a
-                          onClick={handleEdit}
-                          href="#"
-                          className="inline-flex items-center justify-center rounded font-medium text-md me-4 leading-[25px] bg-green2 text-green-500 hover:shadow-[inset_0_0_0_1px] hover:shadow-green8 focus:shadow-[0_0_0_2px] focus:shadow-green8"
-                        >
-                          Edit event
-                        </a>
-                      </Text>
+            <Flex direction='column'
+              position="absolute"
+              p='12px 16px'
+              width='480px'
+              maxWidth="480px"
+              left='654px'
+              top='104px'
+              className=" border rounded border-gray-100"
+            >
+
+              <Flex gap='8px' width='457px' >
+                <Flex direction='row' align='center' gap='83px' width='457px' >
+                  <Text as="div" size='3' weight='medium'> Event created on March 14, 2025! </Text>
+                  <Flex as="div" width='117px' gap='8px' style={{ flexDirection: 'row', padding: '0px', alignItems: 'center' }}>
+                    <Box >
+                      <Link href="#" underline="hover" weight="medium" size='3' onClick={handleEdit} >Edit Event</Link>
                     </Box>
-                    <Box>
-                      <Cross2Icon
-                        style={iconStyle}
-                        onClick={handleCloseSuccessMessage}
-                      />
-                    </Box>
+                    <Flex as="div">
+                      <IconButton variant="ghost" color="gray" className=" cursor-pointer">
+
+                        <Cross2Icon
+                          height='18px' width='18px'
+                          onClick={handleCloseSuccessMessage}
+                        />
+
+                      </IconButton>
+                    </Flex>
                   </Flex>
                 </Flex>
-              </Box>
-            </Box>
+
+              </Flex>
+            </Flex>
           )}
           {loading ? (
             <>
@@ -908,7 +949,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                       p="20px"
                       {...getRootProps({ style: dropzoneStyle })}
                       height="120px"
-
+                      className="dragImage"
                     >
                       <TextField.Root
                         variant="soft"
@@ -928,18 +969,20 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
               </Flex>
 
               <Flex gap="4" align="center" mb='5'>
+
                 <Button
                   size="3"
                   variant="soft"
                   type="submit"
                   onSubmit={handleSubmit}
+                  className=" cursor-pointer"
                 >
                   Create Event
                 </Button>
 
                 <AlertDialog.Root>
                   <AlertDialog.Trigger>
-                    <Button color="gray" size="3" mt="" variant="ghost">
+                    <Button color="gray" size="3" mt="" variant="ghost" className=" cursor-pointer">
                       Cancel
                     </Button>
                   </AlertDialog.Trigger>

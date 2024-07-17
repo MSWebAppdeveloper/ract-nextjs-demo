@@ -55,6 +55,110 @@
 .input-d {
   width: 98%;
 }
+.dark .dragImage{
+  background-color: #F4F5F312 !important;
+}
+
+@media only screen and (max-width: 400px) {
+  .navigationBar,
+  .header {
+    display: none;
+  }
+
+  .mainContainer {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .mainContainer form {
+    width: 100%;
+  }
+
+  .mainContainer form .form {
+    width: 100%;
+    padding: 0px 20px 20px 20px;
+  }
+
+  form .sm-date {
+    display: block;
+  }
+
+  .mobile-menu {
+    display: flex;
+    margin-top: 76px;
+  }
+
+  .sm-date .date-fields {
+    width: 100% !important;
+    margin-top: 8px;
+  }
+  .date-fields .input-f {
+    width: 97% !important;
+  }
+  .input-d {
+    width: 100%;
+    }
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.menu-item:hover {
+  background-color: rgba(0, 32, 0, 0.1);
+  border-radius: 6px !important;
+}
+
+.menu-item:hover .menu-text {
+  color: inherit;
+}
+
+.paragraph p {
+  max-width: 340px !important;
+  margin: auto;
+}
+
+.input-field input {
+  display: unset;
+}
+
+.dark .menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .menu-item:hover .menu-text {
+  color: #fff !important;
+}
+
+.dark .menu-item:hover .menu-icon {
+  color: #fff !important;
+}
+
+.mobile-menu {
+  display: none;
+}
+
+.NavigationMenu a {
+  border-radius: 6px;
+}
+
+.NavigationMenu .Active {
+  background-color: #00970016;
+}
+.input-d input {
+  display: unset;
+}
+.input-d {
+  width: 98%;
+}
+.dark .dragImage{
+  background-color: #F4F5F312 !important;
+}
 
 @media only screen and (max-width: 400px) {
   .navigationBar,
