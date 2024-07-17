@@ -570,7 +570,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                     color="gray"
                     variant="soft"
                     size="3"
-                    type="url"
+                    type="text"
                     placeholder="Add video link..."
                   >
                     <TextField.Slot>
@@ -842,7 +842,7 @@ const EventForm = ({ focusable = true, onNewEvent }) => {
                     color="gray"
                     variant="soft"
                     size="3"
-                    type="url"
+                    type="text"
                     name="videoUrl"
                     value={formData.videoUrl}
                     onChange={handleInputChange}
